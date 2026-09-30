@@ -1,4 +1,3 @@
-```javascript
 const themeBtn = document.getElementById("themeBtn");
 const languageSelect = document.getElementById("languageSelect");
 
@@ -672,4 +671,3 @@ changeLanguage(savedLanguage);
 languageSelect.addEventListener("change", () => {
   changeLanguage(languageSelect.value);
 });
-```
