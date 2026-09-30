@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>START21 — Kurslar</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="courses.css" />
+  </head>
+
+  <body class="courses-page">
+    <header class="courses-header">
+      <div class="courses-header__inner">
+        <a href="../index.html" class="logo">
+          <span class="logo__icon">A</span>
+          <span class="logo__text">START<span>21</span></span>
+        </a>
+
+        <nav class="courses-nav">
+          <a href="../index.html">Bosh sahifa</a>
+          <a href="courses.html" class="active">Kurslar</a>
+          <a href="../index.html#teachers">Ustozlar</a>
+          <a href="../index.html#results">Natijalar</a>
+        </nav>
+
+        <div class="courses-actions">
+          <button class="theme-btn" id="themeBtn">☾</button>
+
+          <select class="language-select" id="languageSelect">
+            <option value="uz">UZ</option>
+            <option value="ru">RU</option>
+            <option value="en">EN</option>
+          </select>
+
+          <a href="login.html" class="courses-login"> Kirish </a>
+
+          <a href="register.html" class="courses-register">
+            Ro‘yxatdan o‘tish
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="courses-hero">
+        <div class="courses-container">
+          <div class="courses-hero__content">
+            <span class="courses-label">START21 ACADEMY</span>
+
+            <h1>
+              O‘zingga mos
+              <span>kursni top.</span>
+            </h1>
+
+            <p>
+              Ingliz tilini tajribali ustozlar bilan o‘rganing.
+              Bilimingizni amaliyot orqali rivojlantiring.
+            </p>
+
+            <div class="course-search">
+              <span>⌕</span>
+
+              <input
+                type="text"
+                id="courseSearch"
+                placeholder="Kurs qidirish..."
+              />
+
+              <button id="searchButton">Qidirish</button>
+            </div>
+          </div>
+
+          <div class="courses-hero__visual">
+            <div class="hero-orbit hero-orbit--one"></div>
+            <div class="hero-orbit hero-orbit--two"></div>
+
+            <div class="hero-learning-card">
+              <div class="learning-card__top">
+                <span>BUGUNGI NATIJA</span>
+                <strong>+12%</strong>
+              </div>
+
+              <div class="learning-chart">
+                <span style="height: 35%"></span>
+                <span style="height: 50%"></span>
+                <span style="height: 42%"></span>
+                <span style="height: 68%"></span>
+                <span style="height: 58%"></span>
+                <span style="height: 82%"></span>
+                <span style="height: 95%"></span>
+              </div>
+
+              <div class="learning-card__bottom">
+                <span>Haftalik progress</span>
+                <strong>87%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="courses-section">
+        <div class="courses-container">
+          <div class="courses-toolbar">
+            <div>
+              <span class="section-mini-label">YO‘NALISHLAR</span>
+              <h2>Kurslar katalogi</h2>
+            </div>
+
+            <div class="course-filters" id="courseFilters">
+              <button class="active" data-filter="all">Barchasi</button>
+
+              <button data-filter="english">Umumiy ingliz tili</button>
+
+              <button data-filter="exam">Imtihonga tayyorlov</button>
+            </div>
+          </div>
+
+          <div class="courses-grid-new" id="coursesGrid">
+            <article class="course-card-new" data-category="english">
+              <div class="course-card-new__image course-image--orange">
+                <span class="course-level">4 BOSQICH</span>
+                <strong>EN</strong>
+              </div>
+
+              <div class="course-card-new__body">
+                <div class="course-meta">
+                  <span>UMUMIY INGLIZ TILI</span>
+                  <span>Offline</span>
+                </div>
+
+                <h3>General English</h3>
+
+                <p>4 bosqichdan iborat kurs. O‘quvchilar ingliz tilining asosiy bilimlarini egallashadi.</p>
+
+                <div class="course-teacher">
+                  <span class="teacher-avatar teacher-avatar--orange"> S </span>
+
+                  <div>
+                    <strong>Sertifikatli ustozlar</strong>
+                    <small>Xalqaro sertifikatga ega</small>
+                  </div>
+                </div>
+
+                <div class="course-card-new__footer">
+                  <div>
+                    <strong>2 oy</strong>
+                    <span>Har bir bosqich</span>
+                  </div>
+
+                  <a href="course.html?c=general"> Batafsil → </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="course-card-new" data-category="exam">
+              <div class="course-card-new__image course-image--green">
+                <span class="course-level">IELTS 6.5+</span>
+                <strong>IELTS</strong>
+              </div>
+
+              <div class="course-card-new__body">
+                <div class="course-meta">
+                  <span>IMTIHONGA TAYYORLOV</span>
+                  <span>Offline</span>
+                </div>
+
+                <h3>IELTS</h3>
+
+                <p>Ingliz tilida asosiy bilimga ega va IELTS dan 6.5 dan yuqori ball olmoqchi bo‘lganlar uchun.</p>
+
+                <div class="course-teacher">
+                  <span class="teacher-avatar teacher-avatar--green"> S </span>
+
+                  <div>
+                    <strong>Sertifikatli ustozlar</strong>
+                    <small>Xalqaro sertifikatga ega</small>
+                  </div>
+                </div>
+
+                <div class="course-card-new__footer">
+                  <div>
+                    <strong>4 oy</strong>
+                    <span>Davomiyligi</span>
+                  </div>
+
+                  <a href="course.html?c=ielts"> Batafsil → </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="course-card-new" data-category="exam">
+              <div class="course-card-new__image course-image--blue">
+                <span class="course-level">INTENSIV</span>
+                <strong>IELTS+</strong>
+              </div>
+
+              <div class="course-card-new__body">
+                <div class="course-meta">
+                  <span>IMTIHONGA TAYYORLOV</span>
+                  <span>Offline</span>
+                </div>
+
+                <h3>Intensive IELTS</h3>
+
+                <p>Qisqa muddatda IELTS dan kamida 5.5 darajasiga erishmoqchi bo‘lganlar uchun.</p>
+
+                <div class="course-teacher">
+                  <span class="teacher-avatar"> S </span>
+
+                  <div>
+                    <strong>Sertifikatli ustozlar</strong>
+                    <small>Xalqaro sertifikatga ega</small>
+                  </div>
+                </div>
+
+                <div class="course-card-new__footer">
+                  <div>
+                    <strong>4 oy</strong>
+                    <span>Davomiyligi</span>
+                  </div>
+
+                  <a href="course.html?c=intensive"> Batafsil → </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="course-card-new" data-category="exam">
+              <div class="course-card-new__image course-image--purple">
+                <span class="course-level">CEFR</span>
+                <strong>CEFR</strong>
+              </div>
+
+              <div class="course-card-new__body">
+                <div class="course-meta">
+                  <span>IMTIHONGA TAYYORLOV</span>
+                  <span>Offline</span>
+                </div>
+
+                <h3>CEFR</h3>
+
+                <p>CEFR imtihoniga tayyorlanib, qisqa muddatda ingliz tili darajasini olmoqchi bo‘lganlar uchun.</p>
+
+                <div class="course-teacher">
+                  <span class="teacher-avatar teacher-avatar--purple"> S </span>
+
+                  <div>
+                    <strong>Sertifikatli ustozlar</strong>
+                    <small>Xalqaro sertifikatga ega</small>
+                  </div>
+                </div>
+
+                <div class="course-card-new__footer">
+                  <div>
+                    <strong>4 oy</strong>
+                    <span>Davomiyligi</span>
+                  </div>
+
+                  <a href="course.html?c=cefr"> Batafsil → </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="course-card-new" data-category="exam">
+              <div class="course-card-new__image course-image--red">
+                <span class="course-level">XALQARO</span>
+                <strong>SAT</strong>
+              </div>
+
+              <div class="course-card-new__body">
+                <div class="course-meta">
+                  <span>IMTIHONGA TAYYORLOV</span>
+                  <span>Offline</span>
+                </div>
+
+                <h3>SAT</h3>
+
+                <p>SAT xalqaro imtihoniga tayyorgarlik kursi.</p>
+
+                <div class="course-teacher">
+                  <span class="teacher-avatar teacher-avatar--red"> S </span>
+
+                  <div>
+                    <strong>Sertifikatli ustozlar</strong>
+                    <small>Xalqaro sertifikatga ega</small>
+                  </div>
+                </div>
+
+                <div class="course-card-new__footer">
+                  <div>
+                    <strong>Aloqa</strong>
+                    <span>Jadval uchun so‘rang</span>
+                  </div>
+
+                  <a href="course.html?c=sat"> Batafsil → </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="course-card-new" data-category="exam">
+              <div class="course-card-new__image course-image--dark">
+                <span class="course-level">DTM</span>
+                <strong>DTM</strong>
+              </div>
+
+              <div class="course-card-new__body">
+                <div class="course-meta">
+                  <span>IMTIHONGA TAYYORLOV</span>
+                  <span>Offline</span>
+                </div>
+
+                <h3>DTM va milliy sertifikat</h3>
+
+                <p>DTM va milliy sertifikat imtihonlariga tayyorlov kursi.</p>
+
+                <div class="course-teacher">
+                  <span class="teacher-avatar teacher-avatar--dark"> S </span>
+
+                  <div>
+                    <strong>Sertifikatli ustozlar</strong>
+                    <small>Xalqaro sertifikatga ega</small>
+                  </div>
+                </div>
+
+                <div class="course-card-new__footer">
+                  <div>
+                    <strong>Aloqa</strong>
+                    <span>Jadval uchun so‘rang</span>
+                  </div>
+
+                  <a href="course.html?c=dtm"> Batafsil → </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="empty-courses" id="emptyCourses">
+            <span>⌕</span>
+            <h3>Kurs topilmadi</h3>
+            <p>Boshqa nom yoki yo‘nalish bilan qidirib ko‘ring.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="learning-section">
+        <div class="courses-container">
+          <div class="learning-banner">
+            <div>
+              <span>START21 PLATFORM</span>
+
+              <h2>
+                O‘qishni boshlashga
+                <strong>tayyormisiz?</strong>
+              </h2>
+
+              <p>
+                O‘zingizga mos kursni tanlang va bugunoq rivojlanishni boshlang.
+              </p>
+
+              <a href="register.html"> Bepul ro‘yxatdan o‘tish → </a>
+            </div>
+
+            <div class="learning-number">
+              <strong>21</strong>
+              <span>kelajak sari</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="courses-footer">
+      <div class="courses-container">
+        <div>
+          <a href="../index.html" class="logo">
+            <span class="logo__icon">A</span>
+            <span class="logo__text">START<span>21</span></span>
+          </a>
+        </div>
+
+        <p>
+          <a href="tel:+998781137310">+998 78 113 73 10</a> ·
+          <a href="tel:+998692112121">+998 69 211 21 21</a> ·
+          <a href="https://t.me/Start21" target="_blank" rel="noopener">Telegram</a>
+          · © 2026 START21
+        </p>
+      </div>
+    </footer>
+
+    <script src="courses.js"></script>
+  </body>
+</html>

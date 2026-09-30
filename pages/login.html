@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>START21 — Kirish</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../pages/login.css" />
+  </head>
+
+  <body class="login-page">
+    <main class="login">
+      <div class="login__background">
+        <span class="shape shape--one"></span>
+        <span class="shape shape--two"></span>
+        <span class="shape shape--three"></span>
+        <span class="shape shape--four"></span>
+      </div>
+
+      <a href="../index.html" class="login__logo">
+        <span class="logo__icon">A</span>
+        <span class="logo__text">START<span>21</span></span>
+      </a>
+
+      <div class="login__wrapper">
+        <div class="login__info">
+          <span class="login__badge">START21 PLATFORM</span>
+
+          <h1>
+            Bilimingni oshir,
+            <span>kelajagingni qur.</span>
+          </h1>
+
+          <p>
+            Shaxsiy kabinetingizga kiring va o‘qishdagi natijalaringizni
+            kuzatishda davom eting.
+          </p>
+
+          <div class="login__features">
+            <div class="login-feature">
+              <span>01</span>
+              <div>
+                <strong>Progress</strong>
+                <small>Rivojlanishingizni kuzating</small>
+              </div>
+            </div>
+
+            <div class="login-feature">
+              <span>02</span>
+              <div>
+                <strong>Testlar</strong>
+                <small>Bilimingizni muntazam tekshiring</small>
+              </div>
+            </div>
+
+            <div class="login-feature">
+              <span>03</span>
+              <div>
+                <strong>Maqsad</strong>
+                <small>O‘z maqsadingiz sari harakat qiling</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-card">
+          <div class="login-card__header">
+            <span class="login-card__icon">→</span>
+
+            <h2>Tizimga kirish</h2>
+
+            <p>Hisobingizdan foydalanishda davom eting.</p>
+          </div>
+
+          <form class="login-form">
+            <div class="input-group">
+              <label for="loginEmail">Telefon raqam yoki email</label>
+              <input
+                type="text"
+                id="loginEmail"
+                placeholder="+998 90 123 45 67"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">
+                <label for="loginPassword">Parol</label>
+                <a href="#">Parolni unutdingizmi?</a>
+              </div>
+
+              <div class="password-input">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  placeholder="Parolingizni kiriting"
+                  required
+                />
+
+                <button type="button" id="showPassword">
+                  Ko‘rsatish
+                </button>
+              </div>
+            </div>
+
+            <label class="remember">
+              <input type="checkbox" />
+              <span>Hisobimni eslab qol</span>
+            </label>
+
+            <button type="submit" class="login-submit">
+              Kirish
+              <span>→</span>
+            </button>
+
+            <div class="login-divider">
+              <span>Yoki</span>
+            </div>
+
+            <div class="social-login">
+              <button type="button">
+                <span>G</span>
+                Google
+              </button>
+
+              <button type="button">
+                <span>✈</span>
+                Telegram
+              </button>
+            </div>
+          </form>
+
+          <p class="register-text">
+            Hisobingiz yo‘qmi?
+            <a href="register.html">Ro‘yxatdan o‘ting</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="login__bottom">
+        <span>© 2026 START21</span>
+        <span>Bilim bilan kelajak sari.</span>
+      </div>
+    </main>
+
+    <script>
+      const passwordInput = document.getElementById("loginPassword");
+      const showPassword = document.getElementById("showPassword");
+
+      showPassword.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+
+        passwordInput.type = isPassword ? "text" : "password";
+        showPassword.textContent = isPassword ? "Yashirish" : "Ko‘rsatish";
+      });
+    </script>
+  </body>
+</html>

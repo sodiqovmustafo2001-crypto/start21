@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>START21 — Ro‘yxatdan o‘tish</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="register.css" />
+  </head>
+
+  <body class="register-page">
+    <main class="register">
+      <div class="register__background">
+        <span class="register-shape register-shape--one"></span>
+        <span class="register-shape register-shape--two"></span>
+        <span class="register-shape register-shape--three"></span>
+      </div>
+
+      <a href="../index.html" class="register__logo">
+        <span class="logo__icon">A</span>
+        <span class="logo__text">START<span>21</span></span>
+      </a>
+
+      <div class="register__wrapper">
+        <div class="register__info">
+          <span class="register__badge">START21 PLATFORM</span>
+
+          <h1>
+            O‘zing uchun
+            <span>yangi imkoniyat</span>
+            yarat.
+          </h1>
+
+          <p>
+            START21 platformasida shaxsiy profilingizni yarating va
+            ta’limdagi rivojlanishingizni bir joydan boshqaring.
+          </p>
+
+          <div class="register__steps">
+            <div class="register-step active">
+              <span>01</span>
+              <div>
+                <strong>Profil yarating</strong>
+                <small>Ma’lumotlaringizni kiriting</small>
+              </div>
+            </div>
+
+            <div class="register-step">
+              <span>02</span>
+              <div>
+                <strong>Maqsadingizni belgilang</strong>
+                <small>O‘zingizga mos yo‘nalishni tanlang</small>
+              </div>
+            </div>
+
+            <div class="register-step">
+              <span>03</span>
+              <div>
+                <strong>Rivojlanishni boshlang</strong>
+                <small>Natijalaringizni kuzatib boring</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="register-card">
+          <div class="register-card__header">
+            <span class="register-card__icon">+</span>
+
+            <h2>Hisob yaratish</h2>
+
+            <p>Bir necha qadamda START21 platformasiga qo‘shiling.</p>
+          </div>
+
+          <form class="register-form">
+            <div class="form-row">
+              <div class="input-group">
+                <label for="firstName">Ism</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  placeholder="Ismingiz"
+                  required
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="lastName">Familiya</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  placeholder="Familiyangiz"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="registerPhone">Telefon raqam</label>
+              <input
+                type="tel"
+                id="registerPhone"
+                placeholder="+998 90 123 45 67"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="registerEmail">Email</label>
+              <input
+                type="email"
+                id="registerEmail"
+                placeholder="example@gmail.com"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="registerPassword">Parol</label>
+
+              <div class="password-input">
+                <input
+                  type="password"
+                  id="registerPassword"
+                  placeholder="Kamida 8 ta belgi"
+                  minlength="8"
+                  required
+                />
+
+                <button type="button" id="showRegisterPassword">
+                  Ko‘rsatish
+                </button>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="confirmPassword">Parolni tasdiqlang</label>
+
+              <div class="password-input">
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Parolni qayta kiriting"
+                  minlength="8"
+                  required
+                />
+
+                <button type="button" id="showConfirmPassword">
+                  Ko‘rsatish
+                </button>
+              </div>
+            </div>
+
+            <label class="register-agreement">
+              <input type="checkbox" required />
+              <span>
+                Men foydalanish shartlari va maxfiylik siyosatiga roziman.
+              </span>
+            </label>
+
+            <button type="submit" class="register-submit">
+              Hisob yaratish
+              <span>→</span>
+            </button>
+          </form>
+
+          <p class="login-text">
+            Hisobingiz allaqachon bormi?
+            <a href="login.html">Kirish</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="register__bottom">
+        <span>© 2026 START21</span>
+        <span>Bilim bilan kelajak sari.</span>
+      </div>
+    </main>
+
+    <script>
+      const registerPassword =
+        document.getElementById("registerPassword");
+
+      const confirmPassword =
+        document.getElementById("confirmPassword");
+
+      const showRegisterPassword =
+        document.getElementById("showRegisterPassword");
+
+      const showConfirmPassword =
+        document.getElementById("showConfirmPassword");
+
+      showRegisterPassword.addEventListener("click", () => {
+        const isPassword = registerPassword.type === "password";
+
+        registerPassword.type = isPassword ? "text" : "password";
+        showRegisterPassword.textContent = isPassword
+          ? "Yashirish"
+          : "Ko‘rsatish";
+      });
+
+      showConfirmPassword.addEventListener("click", () => {
+        const isPassword = confirmPassword.type === "password";
+
+        confirmPassword.type = isPassword ? "text" : "password";
+        showConfirmPassword.textContent = isPassword
+          ? "Yashirish"
+          : "Ko‘rsatish";
+      });
+    </script>
+  </body>
+</html>
