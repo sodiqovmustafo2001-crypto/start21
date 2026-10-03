@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>START21 — Natijalar</title>
+
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="student.css" />
+
+    <style>
+      .results-page {
+        display: grid;
+        gap: 18px;
+      }
+
+      .hero-card {
+        padding: 24px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+
+      .hero-card h2 {
+        margin: 0 0 7px;
+      }
+
+      .hero-card p {
+        margin: 0;
+        color: var(--text-light);
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .summary-card {
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+
+      .summary-card span {
+        display: block;
+        color: var(--text-light);
+        font-size: 13px;
+        margin-bottom: 7px;
+      }
+
+      .summary-card strong {
+        display: block;
+        font-size: 28px;
+      }
+
+      .overall-box {
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+
+      .overall-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .overall-title {
+        font-weight: 800;
+      }
+
+      .overall-value {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--primary);
+      }
+
+      .progress {
+        height: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: var(--border);
+      }
+
+      .progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .result-card {
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+
+      .result-card__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .result-card__title {
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .result-card__badge {
+        padding: 6px 9px;
+        border-radius: 999px;
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .result-score {
+        font-size: 30px;
+        font-weight: 900;
+        margin-bottom: 4px;
+      }
+
+      .result-percent {
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .result-date {
+        color: var(--text-light);
+        font-size: 12px;
+        margin-bottom: 12px;
+      }
+
+      .comment-box {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        line-height: 1.6;
+      }
+
+      .comment-box__title {
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
+
+      .comment-box__text {
+        color: var(--text-light);
+        font-size: 13px;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 35px 10px;
+        color: var(--text-light);
+      }
+
+      .error-state {
+        text-align: center;
+        padding: 25px 10px;
+        color: #dc2626;
+        font-weight: 700;
+      }
+
+      .loading-state {
+        text-align: center;
+        padding: 25px 10px;
+        color: var(--text-light);
+      }
+
+      .refresh-button {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: inherit;
+        border-radius: 9px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .refresh-button:hover {
+        border-color: var(--primary);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+      }
+
+      @media (max-width: 900px) {
+        .results-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .summary-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="panel">
+      <aside class="sidebar">
+        <a href="../index.html" class="logo">
+          <span class="logo__icon">A</span>
+          <span class="logo__text">START<span>21</span></span>
+        </a>
+
+        <nav>
+          <a href="dashboard.html">Bosh panel</a>
+          <a href="courses.html">Kurslarim</a>
+          <a href="tests.html">Testlar</a>
+          <a href="results.html" class="active">Natijalar</a>
+          <a href="profile.html">Profil</a>
+        </nav>
+
+        <a href="../pages/login.html" class="sidebar__logout"> Chiqish </a>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <h1>Natijalar</h1>
+            <p>Ustoz tomonidan kiritilgan IELTS natijalaringiz.</p>
+          </div>
+
+          <div class="topbar__right">
+            <button class="theme-btn" id="themeBtn" type="button">☾</button>
+
+            <div class="user-chip" id="userChip">
+              <span>U</span>
+              O‘quvchi
+            </div>
+          </div>
+        </div>
+
+        <div class="results-page">
+          <section class="hero-card">
+            <h2 id="studentName">O‘quvchi</h2>
+            <p>
+              Listening, Reading, Writing, Speaking va Mock natijalaringizni shu
+              yerda ko‘ring.
+            </p>
+          </section>
+
+          <section class="summary-grid">
+            <div class="summary-card">
+              <span>Umumiy progress</span>
+              <strong id="overallValue">0%</strong>
+            </div>
+
+            <div class="summary-card">
+              <span>Kiritilgan natijalar</span>
+              <strong id="resultsCount">0</strong>
+            </div>
+
+            <div class="summary-card">
+              <span>Eng yuqori natija</span>
+              <strong id="highestValue">0%</strong>
+            </div>
+          </section>
+
+          <section class="overall-box">
+            <div class="overall-top">
+              <span class="overall-title"> IELTS umumiy progress </span>
+
+              <span class="overall-value" id="overallText"> 0% </span>
+            </div>
+
+            <div class="progress">
+              <span id="overallBar"></span>
+            </div>
+          </section>
+
+          <section class="results-box">
+            <div class="section-head">
+              <h2>Natijalar</h2>
+
+              <button class="refresh-button" id="refreshButton" type="button">
+                Yangilash
+              </button>
+            </div>
+
+            <div class="results-grid" id="resultsGrid">
+              <div class="loading-state">Natijalar yuklanmoqda...</div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000";
+
+      const themeBtn = document.getElementById("themeBtn");
+
+      const userChip = document.getElementById("userChip");
+
+      const studentName = document.getElementById("studentName");
+
+      const overallValue = document.getElementById("overallValue");
+
+      const overallText = document.getElementById("overallText");
+
+      const overallBar = document.getElementById("overallBar");
+
+      const resultsCount = document.getElementById("resultsCount");
+
+      const highestValue = document.getElementById("highestValue");
+
+      const resultsGrid = document.getElementById("resultsGrid");
+
+      const refreshButton = document.getElementById("refreshButton");
+
+      let currentUser = null;
+      let results = {};
+
+      const resultTypes = [
+        "listening",
+        "reading",
+        "writing",
+        "speaking",
+        "mock",
+      ];
+
+      function getCurrentUser() {
+        const saved = localStorage.getItem("start21User");
+
+        if (!saved) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(saved);
+        } catch {
+          return null;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function getPercentage(result) {
+        if (!result) {
+          return 0;
+        }
+
+        if (
+          result.percentage !== undefined &&
+          result.percentage !== null &&
+          result.percentage !== ""
+        ) {
+          const percentage = Number(result.percentage);
+
+          if (Number.isFinite(percentage)) {
+            return Math.max(0, Math.min(100, percentage));
+          }
+        }
+
+        const score = Number(result.score);
+        const total = Number(result.total);
+
+        if (Number.isFinite(score) && Number.isFinite(total) && total > 0) {
+          return Math.max(0, Math.min(100, (score / total) * 100));
+        }
+
+        return 0;
+      }
+
+      function getTypeLabel(type) {
+        const labels = {
+          listening: "Listening",
+          reading: "Reading",
+          writing: "Writing",
+          speaking: "Speaking",
+          mock: "Mock",
+        };
+
+        return labels[type] || type;
+      }
+
+      function getScore(result) {
+        if (!result) {
+          return "—";
+        }
+
+        if (
+          result.score !== undefined &&
+          result.score !== null &&
+          result.score !== "" &&
+          result.total !== undefined &&
+          result.total !== null &&
+          result.total !== ""
+        ) {
+          return `${result.score}/${result.total}`;
+        }
+
+        if (
+          result.correct !== undefined &&
+          result.correct !== null &&
+          result.correct !== "" &&
+          result.total !== undefined &&
+          result.total !== null &&
+          result.total !== ""
+        ) {
+          return `${result.correct}/${result.total}`;
+        }
+
+        const percentage = getPercentage(result);
+
+        return percentage ? `${percentage.toFixed(1)}%` : "—";
+      }
+
+      function getDate(result) {
+        if (!result?.updatedAt) {
+          return "Sana ko‘rsatilmagan";
+        }
+
+        const date = new Date(result.updatedAt);
+
+        if (Number.isNaN(date.getTime())) {
+          return "Sana ko‘rsatilmagan";
+        }
+
+        return date.toLocaleDateString("uz-UZ");
+      }
+
+      function calculateOverall() {
+        const values = [
+          getPercentage(results.listening),
+          getPercentage(results.reading),
+          getPercentage(results.writing),
+          getPercentage(results.speaking),
+        ].filter((value) => value > 0);
+
+        if (!values.length) {
+          return 0;
+        }
+
+        return values.reduce((sum, value) => sum + value, 0) / values.length;
+      }
+
+      function renderSummary() {
+        const values = resultTypes
+          .map((type) => getPercentage(results[type]))
+          .filter((value) => value > 0);
+
+        const overall = calculateOverall();
+
+        const highest = values.length > 0 ? Math.max(...values) : 0;
+
+        const count = resultTypes.filter((type) => results[type]).length;
+
+        overallValue.textContent = `${overall.toFixed(1)}%`;
+
+        overallText.textContent = `${overall.toFixed(1)}%`;
+
+        overallBar.style.width = `${overall}%`;
+
+        resultsCount.textContent = String(count);
+
+        highestValue.textContent = `${highest.toFixed(1)}%`;
+      }
+
+      function renderResults() {
+        const savedTypes = resultTypes.filter((type) => results[type]);
+
+        if (!savedTypes.length) {
+          resultsGrid.innerHTML = `
+            <div class="empty-state">
+              Hali ustoz tomonidan natija
+              kiritilmagan.
+            </div>
+          `;
+
+          return;
+        }
+
+        resultsGrid.innerHTML = savedTypes
+          .map((type) => {
+            const result = results[type];
+
+            const percentage = getPercentage(result);
+
+            return `
+                <article class="result-card">
+                  <div class="result-card__top">
+                    <div class="result-card__title">
+                      ${escapeHtml(getTypeLabel(type))}
+                    </div>
+
+                    <div class="result-card__badge">
+                      ${percentage.toFixed(1)}%
+                    </div>
+                  </div>
+
+                  <div class="result-score">
+                    ${escapeHtml(getScore(result))}
+                  </div>
+
+                  <div class="result-percent">
+                    Natija:
+                    ${percentage.toFixed(1)}%
+                  </div>
+
+                  <div class="result-date">
+                    Yangilangan:
+                    ${escapeHtml(getDate(result))}
+                  </div>
+
+                  <div class="comment-box">
+                    <div class="comment-box__title">
+                      Ustoz izohi
+                    </div>
+
+                    <div class="comment-box__text">
+                      ${
+                        result.comment
+                          ? escapeHtml(result.comment)
+                          : "Ustoz izoh qoldirmagan."
+                      }
+                    </div>
+                  </div>
+                </article>
+              `;
+          })
+          .join("");
+      }
+
+      async function loadResults() {
+        resultsGrid.innerHTML = `
+          <div class="loading-state">
+            Natijalar yuklanmoqda...
+          </div>
+        `;
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/results/${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Natijalarni olishda xatolik");
+          }
+
+          results =
+            data.results && typeof data.results === "object"
+              ? data.results
+              : {};
+
+          renderSummary();
+          renderResults();
+        } catch (error) {
+          results = {};
+
+          renderSummary();
+
+          resultsGrid.innerHTML = `
+            <div class="error-state">
+              ${escapeHtml(error.message)}
+            </div>
+          `;
+        }
+      }
+
+      currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = "../pages/login.html";
+
+        throw new Error("Login kerak.");
+      }
+
+      if (currentUser.role === "teacher") {
+        window.location.href = "../teacher/dashboard.html";
+
+        throw new Error("Teacher student panelga kira olmaydi.");
+      }
+
+      const name = currentUser.name || "O‘quvchi";
+
+      const firstLetter = name.charAt(0).toUpperCase();
+
+      studentName.textContent = name;
+
+      userChip.innerHTML = `
+        <span>
+          ${escapeHtml(firstLetter)}
+        </span>
+        ${escapeHtml(name)}
+      `;
+
+      if (localStorage.getItem("start21Theme") === "dark") {
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀";
+      }
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
+        themeBtn.textContent = isDark ? "☀" : "☾";
+      });
+
+      refreshButton.addEventListener("click", async () => {
+        refreshButton.disabled = true;
+
+        refreshButton.textContent = "Yuklanmoqda...";
+
+        await loadResults();
+
+        refreshButton.disabled = false;
+
+        refreshButton.textContent = "Yangilash";
+      });
+
+      const logoutButton = document.querySelector(".sidebar__logout");
+
+      logoutButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("start21User");
+
+        window.location.href = "../pages/login.html";
+      });
+
+      loadResults();
+    </script>
+  </body>
+</html>

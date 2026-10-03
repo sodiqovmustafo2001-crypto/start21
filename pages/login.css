@@ -1,6 +1,6 @@
 .login-page {
   min-height: 100vh;
-  background: #f4f7fc;
+  background: #ffffff;
 }
 
 .login {
@@ -175,7 +175,7 @@
 .login__info > p {
   max-width: 540px;
   margin-top: 24px;
-  color: #68758a;
+  color: #4f5d73;
   font-size: 15px;
   line-height: 1.8;
 }
@@ -190,7 +190,7 @@
   align-items: center;
   gap: 17px;
   padding: 16px 0;
-  border-bottom: 1px solid #e4e9f1;
+  border-bottom: 1px solid #d3dbe8;
 }
 
 .login-feature > span {
@@ -210,7 +210,7 @@
 
 .login-feature small {
   margin-top: 2px;
-  color: #8490a3;
+  color: #5f6c82;
   font-size: 11px;
 }
 
@@ -276,7 +276,7 @@
 
 .login-card__header p {
   margin-top: 6px;
-  color: #7a879b;
+  color: #5f6c82;
   font-size: 12px;
 }
 
@@ -312,7 +312,7 @@
 }
 
 .input-group input::placeholder {
-  color: #a5afbd;
+  color: #7d889a;
 }
 
 .input-group input:focus {
@@ -357,7 +357,7 @@
   align-items: center;
   gap: 8px;
   margin: 2px 0 20px;
-  color: #7a879b;
+  color: #5f6c82;
   font-size: 11px;
   cursor: pointer;
 }
@@ -417,7 +417,7 @@
   position: relative;
   padding: 0 12px;
   background: white;
-  color: #9aa5b5;
+  color: #6b7789;
   font-size: 10px;
 }
 
@@ -458,7 +458,7 @@
 
 .register-text {
   margin-top: 24px;
-  color: #7f8b9e;
+  color: #5f6c82;
   text-align: center;
   font-size: 11px;
 }
@@ -478,7 +478,7 @@
   z-index: 5;
   display: flex;
   justify-content: space-between;
-  color: #9aa5b5;
+  color: #6b7789;
   font-size: 10px;
 }
 

@@ -2,9 +2,13 @@
 <html lang="uz">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>START21 — Kirish</title>
+
     <link rel="stylesheet" href="../style.css" />
+
     <link rel="stylesheet" href="../pages/login.css" />
   </head>
 
@@ -19,16 +23,17 @@
 
       <a href="../index.html" class="login__logo">
         <span class="logo__icon">A</span>
-        <span class="logo__text">START<span>21</span></span>
+
+        <span class="logo__text"> START<span>21</span> </span>
       </a>
 
       <div class="login__wrapper">
         <div class="login__info">
-          <span class="login__badge">START21 PLATFORM</span>
+          <span class="login__badge"> START21 PLATFORM </span>
 
           <h1>
             Bilimingni oshir,
-            <span>kelajagingni qur.</span>
+            <span> kelajagingni qur. </span>
           </h1>
 
           <p>
@@ -39,25 +44,31 @@
           <div class="login__features">
             <div class="login-feature">
               <span>01</span>
+
               <div>
-                <strong>Progress</strong>
-                <small>Rivojlanishingizni kuzating</small>
+                <strong> Progress </strong>
+
+                <small> Rivojlanishingizni kuzating </small>
               </div>
             </div>
 
             <div class="login-feature">
               <span>02</span>
+
               <div>
-                <strong>Testlar</strong>
-                <small>Bilimingizni muntazam tekshiring</small>
+                <strong> Testlar </strong>
+
+                <small> Bilimingizni muntazam tekshiring </small>
               </div>
             </div>
 
             <div class="login-feature">
               <span>03</span>
+
               <div>
-                <strong>Maqsad</strong>
-                <small>O‘z maqsadingiz sari harakat qiling</small>
+                <strong> Maqsad </strong>
+
+                <small> O‘z maqsadingiz sari harakat qiling </small>
               </div>
             </div>
           </div>
@@ -65,7 +76,7 @@
 
         <div class="login-card">
           <div class="login-card__header">
-            <span class="login-card__icon">→</span>
+            <span class="login-card__icon"> → </span>
 
             <h2>Tizimga kirish</h2>
 
@@ -74,7 +85,8 @@
 
           <form class="login-form">
             <div class="input-group">
-              <label for="loginEmail">Telefon raqam yoki email</label>
+              <label for="loginEmail"> Telefon raqam yoki email </label>
+
               <input
                 type="text"
                 id="loginEmail"
@@ -85,8 +97,9 @@
 
             <div class="input-group">
               <div class="input-label">
-                <label for="loginPassword">Parol</label>
-                <a href="#">Parolni unutdingizmi?</a>
+                <label for="loginPassword"> Parol </label>
+
+                <a href="#"> Parolni unutdingizmi? </a>
               </div>
 
               <div class="password-input">
@@ -97,20 +110,20 @@
                   required
                 />
 
-                <button type="button" id="showPassword">
-                  Ko‘rsatish
-                </button>
+                <button type="button" id="showPassword">Ko‘rsatish</button>
               </div>
             </div>
 
             <label class="remember">
-              <input type="checkbox" />
-              <span>Hisobimni eslab qol</span>
+              <input type="checkbox" id="rememberMe" />
+
+              <span> Hisobimni eslab qol </span>
             </label>
 
-            <button type="submit" class="login-submit">
+            <button type="submit" class="login-submit" id="loginSubmit">
               Kirish
-              <span>→</span>
+
+              <span> → </span>
             </button>
 
             <div class="login-divider">
@@ -132,26 +145,133 @@
 
           <p class="register-text">
             Hisobingiz yo‘qmi?
-            <a href="register.html">Ro‘yxatdan o‘ting</a>
+
+            <a href="register.html"> Ro‘yxatdan o‘ting </a>
           </p>
         </div>
       </div>
 
       <div class="login__bottom">
-        <span>© 2026 START21</span>
-        <span>Bilim bilan kelajak sari.</span>
+        <span> © 2026 START21 </span>
+
+        <span> Bilim bilan kelajak sari. </span>
       </div>
     </main>
 
     <script>
+      const loginForm = document.querySelector(".login-form");
+
+      const loginInput = document.getElementById("loginEmail");
+
       const passwordInput = document.getElementById("loginPassword");
+
       const showPassword = document.getElementById("showPassword");
+
+      const rememberMe = document.getElementById("rememberMe");
+
+      const loginSubmit = document.getElementById("loginSubmit");
+
+      const API_URL = "http://localhost:5000";
 
       showPassword.addEventListener("click", () => {
         const isPassword = passwordInput.type === "password";
 
         passwordInput.type = isPassword ? "text" : "password";
+
         showPassword.textContent = isPassword ? "Yashirish" : "Ko‘rsatish";
+      });
+
+      const savedLogin = localStorage.getItem("start21RememberLogin");
+
+      if (savedLogin) {
+        loginInput.value = savedLogin;
+
+        rememberMe.checked = true;
+      }
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const login = loginInput.value.trim();
+
+        const password = passwordInput.value;
+
+        if (!login || !password) {
+          alert("Login va parolni kiriting");
+
+          return;
+        }
+
+        loginSubmit.disabled = true;
+
+        loginSubmit.innerHTML = `
+            Kirilmoqda...
+          `;
+
+        try {
+          const response = await fetch(`${API_URL}/api/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              login,
+              password,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            alert(data.message || "Kirishda xatolik yuz berdi");
+
+            return;
+          }
+
+          const user = data.user;
+
+          if (!user || !user.id) {
+            alert("Server noto‘g‘ri foydalanuvchi ma’lumotini qaytardi");
+
+            return;
+          }
+
+          localStorage.setItem("start21User", JSON.stringify(user));
+
+          const userKey = String(user.id || user.email || "")
+            .trim()
+            .replace(/[^a-zA-Z0-9_-]/g, "_");
+
+          localStorage.setItem(
+            `start21Results_${userKey}`,
+            JSON.stringify(data.results || {}),
+          );
+
+          if (rememberMe.checked) {
+            localStorage.setItem("start21RememberLogin", login);
+          } else {
+            localStorage.removeItem("start21RememberLogin");
+          }
+
+          if (user.role === "teacher") {
+            window.location.href = "../teacher/dashboard.html";
+
+            return;
+          }
+
+          window.location.href = "../student/dashboard.html";
+        } catch (error) {
+          console.error(error);
+
+          alert("Server bilan bog‘lanib bo‘lmadi");
+        } finally {
+          loginSubmit.disabled = false;
+
+          loginSubmit.innerHTML = `
+              Kirish
+              <span>→</span>
+            `;
+        }
       });
     </script>
   </body>

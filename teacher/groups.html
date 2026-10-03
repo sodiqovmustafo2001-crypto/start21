@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>START21 — Guruhlar</title>
+
+    <link rel="stylesheet" href="../style.css" />
+
+    <link rel="stylesheet" href="../student/student.css" />
+
+    <style>
+      .page-grid {
+        display: grid;
+        grid-template-columns: 330px minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .group-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .group-item {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .group-item:hover {
+        border-color: var(--primary);
+      }
+
+      .group-item.active {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: white;
+      }
+
+      .group-item__top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      .group-item__name {
+        font-weight: 800;
+      }
+
+      .group-item__count {
+        font-size: 13px;
+        opacity: 0.8;
+        white-space: nowrap;
+      }
+
+      .group-item__text {
+        font-size: 13px;
+        opacity: 0.8;
+      }
+
+      .create-form {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 6px;
+      }
+
+      .form-group label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 12px 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: var(--primary);
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .group-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 18px;
+      }
+
+      .group-header h2 {
+        margin-bottom: 5px;
+      }
+
+      .group-header p {
+        color: var(--text-light);
+        font-size: 14px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+        margin-bottom: 16px;
+      }
+
+      .search-input:focus {
+        border-color: var(--primary);
+      }
+
+      .student-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .student-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 15px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .student-item__left {
+        min-width: 0;
+      }
+
+      .student-item__name {
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+
+      .student-item__text {
+        color: var(--text-light);
+        font-size: 13px;
+        word-break: break-word;
+      }
+
+      .student-item__actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .danger-button {
+        border: 1px solid #dc2626;
+        color: #dc2626;
+        background: transparent;
+        border-radius: 9px;
+        padding: 9px 12px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .danger-button:hover {
+        background: #dc2626;
+        color: white;
+      }
+
+      .empty-state {
+        color: var(--text-light);
+        padding: 20px 0;
+        font-size: 14px;
+      }
+
+      .message {
+        min-height: 20px;
+        margin-top: 10px;
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .error-message {
+        color: #dc2626;
+      }
+
+      .add-student-box {
+        margin-top: 18px;
+      }
+
+      .add-student-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: end;
+      }
+
+      .student-option-info {
+        color: var(--text-light);
+        font-size: 12px;
+        margin-top: 4px;
+      }
+
+      @media (max-width: 900px) {
+        .page-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .group-header,
+        .student-item {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .add-student-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="panel">
+      <aside class="sidebar">
+        <a href="../index.html" class="logo">
+          <span class="logo__icon">A</span>
+
+          <span class="logo__text"> START<span>21</span> </span>
+        </a>
+
+        <nav>
+          <a href="dashboard.html"> Bosh panel </a>
+
+          <a href="groups.html" class="active"> Guruhlar </a>
+
+          <a href="students.html"> O‘quvchilar </a>
+
+          <a href="attendance.html"> Davomat </a>
+
+          <a href="results.html"> Natijalar </a>
+        </nav>
+
+        <a href="../pages/login.html" class="sidebar__logout"> Chiqish </a>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <h1>Guruhlar</h1>
+
+            <p>Guruhlaringiz va ularning o‘quvchilarini boshqaring.</p>
+          </div>
+
+          <div class="topbar__right">
+            <button class="theme-btn" id="themeBtn" type="button">☾</button>
+
+            <div class="user-chip" id="userChip">
+              <span>U</span>
+              Ustoz
+            </div>
+          </div>
+        </div>
+
+        <section class="page-grid">
+          <div>
+            <section class="box">
+              <div class="section-title">
+                <h2>Guruhlarim</h2>
+              </div>
+
+              <div class="group-list" id="groupList"></div>
+
+              <div class="create-form">
+                <h3>Yangi guruh</h3>
+
+                <div class="form-group">
+                  <label for="groupName"> Guruh nomi </label>
+
+                  <input
+                    id="groupName"
+                    type="text"
+                    placeholder="IELTS Intermediate A"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="groupCourse"> Kurs </label>
+
+                  <select id="groupCourse">
+                    <option value="IELTS">IELTS</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="groupLevel"> Daraja </label>
+
+                  <select id="groupLevel">
+                    <option value="Beginner">Beginner</option>
+
+                    <option value="Elementary">Elementary</option>
+
+                    <option value="Pre-Intermediate">Pre-Intermediate</option>
+
+                    <option value="Intermediate" selected>Intermediate</option>
+
+                    <option value="Upper-Intermediate">
+                      Upper-Intermediate
+                    </option>
+
+                    <option value="Advanced">Advanced</option>
+                  </select>
+                </div>
+
+                <button class="btn-small" id="createGroupButton" type="button">
+                  Guruh yaratish
+                </button>
+
+                <div class="message" id="groupMessage"></div>
+              </div>
+            </section>
+          </div>
+
+          <div>
+            <section class="box">
+              <div class="group-header">
+                <div>
+                  <h2 id="selectedGroupName">Guruh tanlang</h2>
+
+                  <p id="selectedGroupInfo">
+                    O‘quvchilarni ko‘rish uchun chap tomondan guruhni tanlang.
+                  </p>
+                </div>
+              </div>
+
+              <input
+                type="text"
+                class="search-input"
+                id="studentSearch"
+                placeholder="O‘quvchini qidirish..."
+              />
+
+              <div class="student-list" id="studentList">
+                <div class="empty-state">Hali guruh tanlanmagan.</div>
+              </div>
+            </section>
+
+            <section class="box add-student-box">
+              <h2>Mavjud o‘quvchini guruhga qo‘shish</h2>
+
+              <p
+                style="
+                  color: var(--text-light);
+                  font-size: 14px;
+                  margin: 8px 0 16px;
+                "
+              >
+                Tizimdagi mavjud o‘quvchini tanlangan guruhga qo‘shing.
+              </p>
+
+              <div class="add-student-grid">
+                <div class="form-group">
+                  <label for="studentSelect"> O‘quvchi </label>
+
+                  <select id="studentSelect">
+                    <option value="">O‘quvchi tanlang</option>
+                  </select>
+
+                  <div class="student-option-info" id="studentOptionInfo"></div>
+                </div>
+
+                <button class="btn-small" id="addStudentButton" type="button">
+                  Guruhga qo‘shish
+                </button>
+              </div>
+
+              <div class="message" id="addStudentMessage"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000";
+
+      const currentUser = getCurrentUser();
+
+      const themeBtn = document.getElementById("themeBtn");
+
+      const userChip = document.getElementById("userChip");
+
+      const groupList = document.getElementById("groupList");
+
+      const groupName = document.getElementById("groupName");
+
+      const groupCourse = document.getElementById("groupCourse");
+
+      const groupLevel = document.getElementById("groupLevel");
+
+      const createGroupButton = document.getElementById("createGroupButton");
+
+      const groupMessage = document.getElementById("groupMessage");
+
+      const selectedGroupName = document.getElementById("selectedGroupName");
+
+      const selectedGroupInfo = document.getElementById("selectedGroupInfo");
+
+      const studentSearch = document.getElementById("studentSearch");
+
+      const studentList = document.getElementById("studentList");
+
+      const studentSelect = document.getElementById("studentSelect");
+
+      const studentOptionInfo = document.getElementById("studentOptionInfo");
+
+      const addStudentButton = document.getElementById("addStudentButton");
+
+      const addStudentMessage = document.getElementById("addStudentMessage");
+
+      let groups = [];
+      let selectedGroup = null;
+      let groupStudents = [];
+      let allStudents = [];
+
+      function getCurrentUser() {
+        const savedUser = localStorage.getItem("start21User");
+
+        if (!savedUser) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(savedUser);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      if (!currentUser) {
+        window.location.href = "../pages/login.html";
+
+        throw new Error("Login kerak.");
+      }
+
+      if (currentUser.role !== "teacher") {
+        window.location.href = "../student/dashboard.html";
+
+        throw new Error("Teacher huquqi yo‘q.");
+      }
+
+      const teacherName = currentUser.name || "Ustoz";
+
+      const firstLetter = teacherName.charAt(0).toUpperCase();
+
+      userChip.innerHTML = `
+        <span>${firstLetter}</span>
+        ${teacherName}
+      `;
+
+      if (localStorage.getItem("start21Theme") === "dark") {
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀";
+      }
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
+        themeBtn.textContent = isDark ? "☀" : "☾";
+      });
+
+      function showMessage(element, message, error = false) {
+        element.textContent = message;
+
+        element.classList.toggle("error-message", error);
+
+        setTimeout(() => {
+          element.textContent = "";
+          element.classList.remove("error-message");
+        }, 3500);
+      }
+
+      async function loadGroups() {
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Guruhlarni olishda xatolik");
+          }
+
+          groups = data.groups || [];
+
+          renderGroups();
+
+          if (groups.length > 0 && !selectedGroup) {
+            selectGroup(groups[0]);
+          }
+
+          if (groups.length === 0) {
+            selectedGroup = null;
+
+            selectedGroupName.textContent = "Guruh tanlang";
+
+            selectedGroupInfo.textContent = "Hali guruh yaratilmagan.";
+
+            studentList.innerHTML = `
+              <div class="empty-state">
+                Hali guruh mavjud emas.
+              </div>
+            `;
+          }
+        } catch (error) {
+          showMessage(groupMessage, error.message, true);
+        }
+      }
+
+      function renderGroups() {
+        if (groups.length === 0) {
+          groupList.innerHTML = `
+            <div class="empty-state">
+              Hali guruh mavjud emas.
+            </div>
+          `;
+
+          return;
+        }
+
+        groupList.innerHTML = groups
+          .map((group) => {
+            const isActive =
+              selectedGroup && String(selectedGroup.id) === String(group.id);
+
+            const studentCount = Array.isArray(group.studentIds)
+              ? group.studentIds.length
+              : 0;
+
+            return `
+                <button
+                  type="button"
+                  class="group-item ${isActive ? "active" : ""}"
+                  data-group-id="${group.id}"
+                >
+                  <div class="group-item__top">
+                    <span class="group-item__name">
+                      ${group.name}
+                    </span>
+
+                    <span class="group-item__count">
+                      ${studentCount} ta
+                    </span>
+                  </div>
+
+                  <div class="group-item__text">
+                    ${group.course || "IELTS"} ·
+                    ${group.level || "Intermediate"}
+                  </div>
+                </button>
+              `;
+          })
+          .join("");
+
+        document.querySelectorAll(".group-item").forEach((button) => {
+          button.addEventListener("click", () => {
+            const groupId = button.dataset.groupId;
+
+            const group = groups.find(
+              (item) => String(item.id) === String(groupId),
+            );
+
+            if (group) {
+              selectGroup(group);
+            }
+          });
+        });
+      }
+
+      async function selectGroup(group) {
+        selectedGroup = group;
+
+        renderGroups();
+
+        selectedGroupName.textContent = group.name;
+
+        selectedGroupInfo.textContent = `${group.course || "IELTS"} · ${
+          group.level || "Intermediate"
+        }`;
+
+        await loadGroupStudents();
+
+        await loadAvailableStudents();
+      }
+
+      async function loadGroupStudents() {
+        if (!selectedGroup) {
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups/${selectedGroup.id}/students?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "O‘quvchilarni olishda xatolik");
+          }
+
+          groupStudents = data.students || [];
+
+          renderStudents(studentSearch.value);
+        } catch (error) {
+          studentList.innerHTML = `
+            <div class="empty-state">
+              ${error.message}
+            </div>
+          `;
+        }
+      }
+
+      function renderStudents(search = "") {
+        const searchText = search.toLowerCase().trim();
+
+        const filtered = groupStudents.filter(
+          (student) =>
+            !searchText ||
+            String(student.name).toLowerCase().includes(searchText) ||
+            String(student.email).toLowerCase().includes(searchText) ||
+            String(student.phone).toLowerCase().includes(searchText),
+        );
+
+        if (filtered.length === 0) {
+          studentList.innerHTML = `
+            <div class="empty-state">
+              Bu guruhda o‘quvchi topilmadi.
+            </div>
+          `;
+
+          return;
+        }
+
+        studentList.innerHTML = filtered
+          .map(
+            (student) => `
+                <div class="student-item">
+                  <div class="student-item__left">
+                    <div class="student-item__name">
+                      ${student.name}
+                    </div>
+
+                    <div class="student-item__text">
+                      ${student.email || "Email yo‘q"}
+                      ·
+                      ${student.phone || "Telefon yo‘q"}
+                    </div>
+                  </div>
+
+                  <div class="student-item__actions">
+                    <a
+                      href="student.html?id=${student.id}"
+                      class="badge"
+                    >
+                      Profil
+                    </a>
+
+                    <button
+                      type="button"
+                      class="danger-button remove-student-button"
+                      data-student-id="${student.id}"
+                    >
+                      Guruhdan chiqarish
+                    </button>
+                  </div>
+                </div>
+              `,
+          )
+          .join("");
+
+        document
+          .querySelectorAll(".remove-student-button")
+          .forEach((button) => {
+            button.addEventListener("click", () => {
+              removeStudent(button.dataset.studentId);
+            });
+          });
+      }
+
+      async function loadAvailableStudents() {
+        if (!selectedGroup) {
+          studentSelect.innerHTML = `
+            <option value="">
+              Avval guruh tanlang
+            </option>
+          `;
+
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/students?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "O‘quvchilarni olishda xatolik");
+          }
+
+          const students = data.students || [];
+
+          allStudents = students.filter(
+            (student) =>
+              !groupStudents.some(
+                (groupStudent) =>
+                  String(groupStudent.id) === String(student.id),
+              ),
+          );
+
+          studentSelect.innerHTML = `
+            <option value="">
+              O‘quvchi tanlang
+            </option>
+          `;
+
+          allStudents.forEach((student) => {
+            const option = document.createElement("option");
+
+            option.value = student.id;
+
+            option.textContent = `${student.name} — ${
+              student.phone || "telefon yo‘q"
+            }`;
+
+            studentSelect.appendChild(option);
+          });
+        } catch (error) {
+          studentSelect.innerHTML = `
+            <option value="">
+              O‘quvchilarni olib bo‘lmadi
+            </option>
+          `;
+        }
+      }
+
+      studentSelect.addEventListener("change", () => {
+        const student = allStudents.find(
+          (item) => String(item.id) === String(studentSelect.value),
+        );
+
+        if (!student) {
+          studentOptionInfo.textContent = "";
+
+          return;
+        }
+
+        studentOptionInfo.textContent = `${student.email || "Email yo‘q"} · ${
+          student.phone || "Telefon yo‘q"
+        }`;
+      });
+
+      createGroupButton.addEventListener("click", async () => {
+        const name = groupName.value.trim();
+
+        const course = groupCourse.value;
+
+        const level = groupLevel.value;
+
+        if (!name) {
+          showMessage(groupMessage, "Guruh nomini kiriting.", true);
+
+          return;
+        }
+
+        try {
+          createGroupButton.disabled = true;
+
+          const response = await fetch(`${API_URL}/api/teacher/groups`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              teacherId: currentUser.id,
+              name,
+              course,
+              level,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Guruh yaratilmadi.");
+          }
+
+          groupName.value = "";
+
+          showMessage(groupMessage, "Guruh muvaffaqiyatli yaratildi.");
+
+          await loadGroups();
+        } catch (error) {
+          showMessage(groupMessage, error.message, true);
+        } finally {
+          createGroupButton.disabled = false;
+        }
+      });
+
+      addStudentButton.addEventListener("click", async () => {
+        if (!selectedGroup) {
+          showMessage(addStudentMessage, "Avval guruh tanlang.", true);
+
+          return;
+        }
+
+        const studentId = studentSelect.value;
+
+        if (!studentId) {
+          showMessage(addStudentMessage, "O‘quvchini tanlang.", true);
+
+          return;
+        }
+
+        try {
+          addStudentButton.disabled = true;
+
+          const response = await fetch(
+            `${API_URL}/api/teacher/students/${studentId}/add-to-group`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                teacherId: currentUser.id,
+                groupId: selectedGroup.id,
+              }),
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "O‘quvchi qo‘shilmadi.");
+          }
+
+          studentSelect.value = "";
+
+          studentOptionInfo.textContent = "";
+
+          showMessage(addStudentMessage, "O‘quvchi guruhga qo‘shildi.");
+
+          await loadGroups();
+
+          const updatedGroup = groups.find(
+            (item) => String(item.id) === String(selectedGroup.id),
+          );
+
+          if (updatedGroup) {
+            selectedGroup = updatedGroup;
+
+            await loadGroupStudents();
+
+            await loadAvailableStudents();
+          }
+        } catch (error) {
+          showMessage(addStudentMessage, error.message, true);
+        } finally {
+          addStudentButton.disabled = false;
+        }
+      });
+
+      async function removeStudent(studentId) {
+        if (!selectedGroup) {
+          return;
+        }
+
+        const confirmed = window.confirm(
+          "Bu o‘quvchini guruhdan chiqarishni xohlaysizmi?",
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups/${selectedGroup.id}/students/${studentId}?teacherId=${currentUser.id}`,
+            {
+              method: "DELETE",
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(
+              data.message || "O‘quvchini guruhdan chiqarib bo‘lmadi.",
+            );
+          }
+
+          await loadGroups();
+
+          const updatedGroup = groups.find(
+            (item) => String(item.id) === String(selectedGroup.id),
+          );
+
+          if (updatedGroup) {
+            selectedGroup = updatedGroup;
+
+            await loadGroupStudents();
+
+            await loadAvailableStudents();
+          }
+
+          showMessage(addStudentMessage, "O‘quvchi guruhdan chiqarildi.");
+        } catch (error) {
+          showMessage(addStudentMessage, error.message, true);
+        }
+      }
+
+      studentSearch.addEventListener("input", () => {
+        renderStudents(studentSearch.value);
+      });
+
+      const logoutButton = document.querySelector(".sidebar__logout");
+
+      logoutButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("start21User");
+
+        window.location.href = "../pages/login.html";
+      });
+
+      loadGroups();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1636 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>START21 — Natijalar</title>
+
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../student/student.css" />
+
+    <style>
+      .results-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+        gap: 18px;
+      }
+
+      .box {
+        min-width: 0;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 7px;
+        margin-bottom: 14px;
+      }
+
+      .form-group label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+        font: inherit;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: var(--primary);
+      }
+
+      .form-group textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .student-search {
+        margin-bottom: 12px;
+      }
+
+      .student-list {
+        display: grid;
+        gap: 8px;
+        max-height: 420px;
+        overflow-y: auto;
+      }
+
+      .student-item {
+        width: 100%;
+        text-align: left;
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        background: transparent;
+        color: inherit;
+        padding: 12px;
+        cursor: pointer;
+      }
+
+      .student-item:hover {
+        border-color: var(--primary);
+      }
+
+      .student-item.active {
+        border-color: var(--primary);
+        background: rgba(139, 92, 246, 0.08);
+      }
+
+      .student-item__name {
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+
+      .student-item__meta {
+        color: var(--text-light);
+        font-size: 12px;
+      }
+
+      .selected-student {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 18px;
+      }
+
+      .selected-student__name {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
+
+      .selected-student__meta {
+        color: var(--text-light);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .skill-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 13px;
+      }
+
+      .skill-card__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .skill-card__title {
+        font-weight: 800;
+      }
+
+      .skill-card__value {
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .progress {
+        height: 7px;
+        border-radius: 999px;
+        background: var(--border);
+        overflow: hidden;
+      }
+
+      .progress span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--primary);
+        border-radius: inherit;
+        transition: width 0.25s ease;
+      }
+
+      .result-form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .result-form__row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .result-type-buttons {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .type-button {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: inherit;
+        border-radius: 10px;
+        padding: 10px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .type-button:hover {
+        border-color: var(--primary);
+      }
+
+      .type-button.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+
+      .mode-switch {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .mode-button {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: inherit;
+        border-radius: 9px;
+        padding: 8px 11px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .mode-button.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .form-help {
+        font-size: 12px;
+        color: var(--text-light);
+        margin-top: -4px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+      }
+
+      .primary-button,
+      .secondary-button {
+        border-radius: 10px;
+        padding: 12px 17px;
+        cursor: pointer;
+        font-weight: 800;
+        border: 1px solid var(--border);
+      }
+
+      .primary-button {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .secondary-button {
+        background: transparent;
+        color: inherit;
+      }
+
+      .primary-button:disabled,
+      .secondary-button:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .message {
+        min-height: 20px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .message.error {
+        color: #dc2626;
+      }
+
+      .results-table-wrap {
+        overflow-x: auto;
+      }
+
+      .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 650px;
+      }
+
+      .results-table th,
+      .results-table td {
+        text-align: left;
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+      }
+
+      .results-table th {
+        font-size: 12px;
+        color: var(--text-light);
+        font-weight: 800;
+      }
+
+      .result-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 8px;
+        border-radius: 999px;
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .comment-cell {
+        max-width: 280px;
+        color: var(--text-light);
+        white-space: normal;
+        line-height: 1.5;
+      }
+
+      .table-action {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: inherit;
+        border-radius: 8px;
+        padding: 7px 10px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .table-action:hover {
+        border-color: var(--primary);
+      }
+
+      .empty-state {
+        text-align: center;
+        color: var(--text-light);
+        padding: 30px 10px;
+      }
+
+      .section-title {
+        margin-bottom: 6px;
+      }
+
+      .section-description {
+        color: var(--text-light);
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+
+      .overall-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        margin-bottom: 16px;
+      }
+
+      .overall-card__top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .overall-card__label {
+        font-weight: 800;
+      }
+
+      .overall-card__value {
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .danger-button {
+        border: 1px solid #dc2626;
+        background: transparent;
+        color: #dc2626;
+        border-radius: 10px;
+        padding: 11px 15px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      @media (max-width: 1100px) {
+        .results-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .skill-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .result-type-buttons {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 600px) {
+        .result-form__row {
+          grid-template-columns: 1fr;
+        }
+
+        .result-type-buttons {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .actions {
+          justify-content: stretch;
+        }
+
+        .actions button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="panel">
+      <aside class="sidebar">
+        <a href="../index.html" class="logo">
+          <span class="logo__icon">A</span>
+          <span class="logo__text">START<span>21</span></span>
+        </a>
+
+        <nav>
+          <a href="dashboard.html">Bosh panel</a>
+          <a href="groups.html">Guruhlar</a>
+          <a href="students.html">O‘quvchilar</a>
+          <a href="attendance.html">Davomat</a>
+          <a href="results.html" class="active">Natijalar</a>
+        </nav>
+
+        <a href="../pages/login.html" class="sidebar__logout">Chiqish</a>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <h1>Natijalar</h1>
+            <p>O‘quvchilarning IELTS natijalarini kiriting va tahrirlang.</p>
+          </div>
+
+          <div class="topbar__right">
+            <button class="theme-btn" id="themeBtn" type="button">☾</button>
+
+            <div class="user-chip" id="userChip">
+              <span>U</span>
+              Ustoz
+            </div>
+          </div>
+        </div>
+
+        <div class="results-layout">
+          <section class="box">
+            <h2 class="section-title">O‘quvchini tanlash</h2>
+            <p class="section-description">
+              Avval guruhni tanlang, keyin shu guruhdagi o‘quvchini belgilang.
+            </p>
+
+            <div class="form-group">
+              <label for="groupSelect">Guruh</label>
+              <select id="groupSelect">
+                <option value="">Guruhni tanlang</option>
+              </select>
+            </div>
+
+            <div class="student-search">
+              <input
+                id="studentSearch"
+                type="text"
+                placeholder="O‘quvchini qidiring..."
+              />
+            </div>
+
+            <div class="student-list" id="studentList">
+              <div class="empty-state">Avval guruhni tanlang.</div>
+            </div>
+          </section>
+
+          <section class="box">
+            <div id="selectedStudentBlock">
+              <div class="empty-state">
+                Natija kiritish uchun o‘quvchini tanlang.
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000";
+
+      const params = new URLSearchParams(window.location.search);
+      const queryStudentId = params.get("studentId");
+
+      const themeBtn = document.getElementById("themeBtn");
+      const userChip = document.getElementById("userChip");
+      const groupSelect = document.getElementById("groupSelect");
+      const studentSearch = document.getElementById("studentSearch");
+      const studentList = document.getElementById("studentList");
+      const selectedStudentBlock = document.getElementById(
+        "selectedStudentBlock",
+      );
+
+      let currentUser = null;
+      let groups = [];
+      let students = [];
+      let selectedGroup = null;
+      let selectedStudent = null;
+      let studentResults = {};
+      let selectedType = "listening";
+      let inputMode = "score";
+      let isEditing = false;
+
+      const resultTypes = [
+        {
+          key: "listening",
+          label: "Listening",
+        },
+        {
+          key: "reading",
+          label: "Reading",
+        },
+        {
+          key: "writing",
+          label: "Writing",
+        },
+        {
+          key: "speaking",
+          label: "Speaking",
+        },
+        {
+          key: "mock",
+          label: "Mock",
+        },
+      ];
+
+      function getCurrentUser() {
+        const saved = localStorage.getItem("start21User");
+
+        if (!saved) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(saved);
+        } catch {
+          return null;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function showMessage(message, error = false) {
+        const box = document.getElementById("resultMessage");
+
+        if (!box) {
+          return;
+        }
+
+        box.textContent = message;
+        box.classList.toggle("error", error);
+
+        if (message) {
+          setTimeout(() => {
+            box.textContent = "";
+            box.classList.remove("error");
+          }, 4000);
+        }
+      }
+
+      function getToday() {
+        const now = new Date();
+
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+      }
+
+      function normalizeResult(result) {
+        if (!result) {
+          return null;
+        }
+
+        return {
+          type: result.type || result.testType || result.skill || "",
+          score:
+            result.score !== undefined && result.score !== null
+              ? result.score
+              : "",
+          total:
+            result.total !== undefined && result.total !== null
+              ? result.total
+              : "",
+          percentage:
+            result.percentage !== undefined && result.percentage !== null
+              ? result.percentage
+              : "",
+          comment: result.comment || result.note || "",
+          date: result.date || result.createdAt || result.created_at || "",
+          id: result.id || null,
+        };
+      }
+
+      function normalizeResults(data) {
+        let list = [];
+
+        if (Array.isArray(data)) {
+          list = data;
+        } else if (Array.isArray(data.results)) {
+          list = data.results;
+        } else if (data.results && typeof data.results === "object") {
+          list = Object.entries(data.results).map(([type, value]) => ({
+            ...(value || {}),
+            type: value?.type || type,
+          }));
+        } else if (data.data && Array.isArray(data.data)) {
+          list = data.data;
+        }
+
+        const map = {};
+
+        list
+          .map(normalizeResult)
+          .filter(Boolean)
+          .forEach((item) => {
+            if (item.type) {
+              map[item.type] = item;
+            }
+          });
+
+        return map;
+      }
+
+      function calculatePercentage(score, total) {
+        const scoreNumber = Number(score);
+        const totalNumber = Number(total);
+
+        if (
+          !Number.isFinite(scoreNumber) ||
+          !Number.isFinite(totalNumber) ||
+          totalNumber <= 0
+        ) {
+          return "";
+        }
+
+        const percentage = (scoreNumber / totalNumber) * 100;
+
+        return Math.max(0, Math.min(100, percentage)).toFixed(1);
+      }
+
+      function clampPercentage(value) {
+        const number = Number(value);
+
+        if (!Number.isFinite(number)) {
+          return "";
+        }
+
+        return Math.max(0, Math.min(100, number)).toFixed(1);
+      }
+
+      function getPercentage(result) {
+        if (!result) {
+          return 0;
+        }
+
+        if (result.percentage !== "" && result.percentage !== null) {
+          const value = Number(result.percentage);
+
+          if (Number.isFinite(value)) {
+            return Math.max(0, Math.min(100, value));
+          }
+        }
+
+        return Number(calculatePercentage(result.score, result.total)) || 0;
+      }
+
+      function getResultDisplay(result) {
+        if (!result) {
+          return "—";
+        }
+
+        if (result.score !== "" && result.total !== "") {
+          return `${result.score}/${result.total}`;
+        }
+
+        if (result.percentage !== "") {
+          return `${result.percentage}%`;
+        }
+
+        return "—";
+      }
+
+      function getTypeLabel(type) {
+        const found = resultTypes.find((item) => item.key === type);
+
+        return found ? found.label : type;
+      }
+
+      function getResultDate(result) {
+        if (!result?.date) {
+          return "Sana ko‘rsatilmagan";
+        }
+
+        const date = new Date(result.date);
+
+        if (Number.isNaN(date.getTime())) {
+          return String(result.date);
+        }
+
+        return date.toLocaleDateString("uz-UZ");
+      }
+
+      currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = "../pages/login.html";
+        throw new Error("Login kerak.");
+      }
+
+      if (currentUser.role !== "teacher") {
+        window.location.href = "../student/dashboard.html";
+        throw new Error("Teacher huquqi yo‘q.");
+      }
+
+      const teacherName = currentUser.name || "Ustoz";
+
+      userChip.innerHTML = `
+        <span>${escapeHtml(teacherName.charAt(0).toUpperCase())}</span>
+        ${escapeHtml(teacherName)}
+      `;
+
+      if (localStorage.getItem("start21Theme") === "dark") {
+        document.body.classList.add("dark");
+        themeBtn.textContent = "☀";
+      }
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
+        themeBtn.textContent = isDark ? "☀" : "☾";
+      });
+
+      function renderGroups() {
+        groupSelect.innerHTML = `
+          <option value="">Guruhni tanlang</option>
+          ${groups
+            .map(
+              (group) => `
+                <option value="${group.id}">
+                  ${escapeHtml(group.name)} — ${escapeHtml(
+                    group.level || "Intermediate",
+                  )}
+                </option>
+              `,
+            )
+            .join("")}
+        `;
+      }
+
+      function renderStudents() {
+        const query = studentSearch.value.trim().toLowerCase();
+
+        const filtered = students.filter((student) => {
+          const name = String(student.name || "").toLowerCase();
+          const phone = String(student.phone || "").toLowerCase();
+          const email = String(student.email || "").toLowerCase();
+
+          return (
+            name.includes(query) ||
+            phone.includes(query) ||
+            email.includes(query)
+          );
+        });
+
+        if (filtered.length === 0) {
+          studentList.innerHTML = `
+            <div class="empty-state">
+              O‘quvchi topilmadi.
+            </div>
+          `;
+          return;
+        }
+
+        studentList.innerHTML = filtered
+          .map(
+            (student) => `
+              <button
+                type="button"
+                class="student-item ${
+                  selectedStudent &&
+                  String(selectedStudent.id) === String(student.id)
+                    ? "active"
+                    : ""
+                }"
+                data-student-id="${student.id}"
+              >
+                <div class="student-item__name">
+                  ${escapeHtml(student.name)}
+                </div>
+
+                <div class="student-item__meta">
+                  ${escapeHtml(
+                    student.phone || student.email || "Aloqa ma’lumoti yo‘q",
+                  )}
+                </div>
+              </button>
+            `,
+          )
+          .join("");
+
+        document.querySelectorAll(".student-item").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const studentId = button.dataset.studentId;
+
+            await selectStudent(studentId);
+          });
+        });
+      }
+
+      async function loadGroups() {
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Guruhlarni olishda xatolik");
+          }
+
+          groups = data.groups || [];
+
+          renderGroups();
+
+          if (groups.length === 0) {
+            studentList.innerHTML = `
+              <div class="empty-state">
+                Hali guruh mavjud emas.
+              </div>
+            `;
+            return;
+          }
+
+          let targetGroup = null;
+
+          if (queryStudentId) {
+            for (const group of groups) {
+              try {
+                const response = await fetch(
+                  `${API_URL}/api/teacher/groups/${group.id}/students?teacherId=${currentUser.id}`,
+                );
+
+                if (!response.ok) {
+                  continue;
+                }
+
+                const data = await response.json();
+
+                const found = (data.students || []).some(
+                  (student) => String(student.id) === String(queryStudentId),
+                );
+
+                if (found) {
+                  targetGroup = group;
+                  break;
+                }
+              } catch {
+                continue;
+              }
+            }
+          }
+
+          if (targetGroup) {
+            groupSelect.value = String(targetGroup.id);
+            await selectGroup(targetGroup.id);
+          } else {
+            await selectGroup(groups[0].id);
+          }
+        } catch (error) {
+          studentList.innerHTML = `
+            <div class="empty-state">
+              ${escapeHtml(error.message)}
+            </div>
+          `;
+        }
+      }
+
+      async function selectGroup(groupId) {
+        const group = groups.find(
+          (item) => String(item.id) === String(groupId),
+        );
+
+        if (!group) {
+          return;
+        }
+
+        selectedGroup = group;
+        selectedStudent = null;
+        studentResults = {};
+        studentSearch.value = "";
+
+        selectedStudentBlock.innerHTML = `
+          <div class="empty-state">
+            O‘quvchi tanlang.
+          </div>
+        `;
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups/${group.id}/students?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "O‘quvchilarni olishda xatolik");
+          }
+
+          students = data.students || [];
+
+          renderStudents();
+
+          if (queryStudentId) {
+            const targetStudent = students.find(
+              (student) => String(student.id) === String(queryStudentId),
+            );
+
+            if (targetStudent) {
+              await selectStudent(targetStudent.id);
+            }
+          }
+        } catch (error) {
+          students = [];
+          renderStudents();
+
+          selectedStudentBlock.innerHTML = `
+            <div class="empty-state">
+              ${escapeHtml(error.message)}
+            </div>
+          `;
+        }
+      }
+
+      async function loadStudentResults(studentId) {
+        const response = await fetch(
+          `${API_URL}/api/teacher/students/${studentId}/results?teacherId=${currentUser.id}`,
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Natijalarni olishda xatolik");
+        }
+
+        return normalizeResults(data);
+      }
+
+      async function selectStudent(studentId) {
+        const student = students.find(
+          (item) => String(item.id) === String(studentId),
+        );
+
+        if (!student) {
+          return;
+        }
+
+        selectedStudent = student;
+
+        renderStudents();
+
+        try {
+          studentResults = await loadStudentResults(student.id);
+
+          renderSelectedStudent();
+        } catch (error) {
+          studentResults = {};
+
+          renderSelectedStudent();
+
+          showMessage(error.message, true);
+        }
+      }
+
+      function renderSelectedStudent() {
+        if (!selectedStudent) {
+          selectedStudentBlock.innerHTML = `
+            <div class="empty-state">
+              Natija kiritish uchun o‘quvchini tanlang.
+            </div>
+          `;
+          return;
+        }
+
+        const result = studentResults[selectedType] || null;
+
+        const averageValues = resultTypes
+          .map((item) => getPercentage(studentResults[item.key]))
+          .filter((value) => value > 0);
+
+        const overall =
+          averageValues.length > 0
+            ? (
+                averageValues.reduce((sum, value) => sum + value, 0) /
+                averageValues.length
+              ).toFixed(1)
+            : "0";
+
+        selectedStudentBlock.innerHTML = `
+          <div class="selected-student">
+            <div class="selected-student__name">
+              ${escapeHtml(selectedStudent.name)}
+            </div>
+
+            <div class="selected-student__meta">
+              ${
+                selectedStudent.email
+                  ? `Email: ${escapeHtml(selectedStudent.email)}<br>`
+                  : ""
+              }
+
+              ${
+                selectedStudent.phone
+                  ? `Telefon: ${escapeHtml(selectedStudent.phone)}<br>`
+                  : ""
+              }
+
+              Guruh:
+              ${escapeHtml(selectedGroup?.name || "—")}
+            </div>
+          </div>
+
+          <div class="overall-card">
+            <div class="overall-card__top">
+              <span class="overall-card__label">Umumiy progress</span>
+              <span class="overall-card__value">${overall}%</span>
+            </div>
+
+            <div class="progress">
+              <span style="width: ${overall}%"></span>
+            </div>
+          </div>
+
+          <div class="skill-grid">
+            ${["listening", "reading", "writing", "speaking"]
+              .map((type) => {
+                const item = studentResults[type];
+                const percentage = getPercentage(item);
+
+                return `
+                  <div class="skill-card">
+                    <div class="skill-card__top">
+                      <span class="skill-card__title">
+                        ${getTypeLabel(type)}
+                      </span>
+
+                      <span class="skill-card__value">
+                        ${item ? getResultDisplay(item) : "—"}
+                      </span>
+                    </div>
+
+                    <div class="progress">
+                      <span style="width: ${percentage}%"></span>
+                    </div>
+                  </div>
+                `;
+              })
+              .join("")}
+          </div>
+
+          <div class="box" style="margin-bottom: 18px;">
+            <h2 class="section-title">Natija kiritish</h2>
+
+            <p class="section-description">
+              Skillni tanlang va natijani kiriting.
+            </p>
+
+            <div class="result-type-buttons">
+              ${resultTypes
+                .map(
+                  (item) => `
+                    <button
+                      type="button"
+                      class="type-button ${
+                        selectedType === item.key ? "active" : ""
+                      }"
+                      data-result-type="${item.key}"
+                    >
+                      ${item.label}
+                    </button>
+                  `,
+                )
+                .join("")}
+            </div>
+
+            <div id="resultMessage" class="message"></div>
+
+            <form id="resultForm" class="result-form">
+              <div>
+                <div class="mode-switch">
+                  <button
+                    type="button"
+                    class="mode-button ${inputMode === "score" ? "active" : ""}"
+                    data-input-mode="score"
+                  >
+                    Ball / jami
+                  </button>
+
+                  <button
+                    type="button"
+                    class="mode-button ${
+                      inputMode === "percentage" ? "active" : ""
+                    }"
+                    data-input-mode="percentage"
+                  >
+                    Foiz
+                  </button>
+                </div>
+
+                <div id="scoreFields">
+                  <div class="result-form__row">
+                    <div class="form-group">
+                      <label for="scoreInput">Olingan ball</label>
+
+                      <input
+                        id="scoreInput"
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        placeholder="Masalan: 32"
+                        value="${
+                          inputMode === "score" && result?.score !== ""
+                            ? escapeHtml(result?.score)
+                            : ""
+                        }"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="totalInput">Jami ball</label>
+
+                      <input
+                        id="totalInput"
+                        type="number"
+                        step="0.1"
+                        min="0.1"
+                        placeholder="Masalan: 40"
+                        value="${
+                          inputMode === "score" && result?.total !== ""
+                            ? escapeHtml(result?.total)
+                            : ""
+                        }"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-help">
+                    Olingan ball / jami ball avtomatik foizga aylantiriladi.
+                  </div>
+                </div>
+
+                <div id="percentageFields" style="display: none;">
+                  <div class="form-group">
+                    <label for="percentageInput">Foiz</label>
+
+                    <input
+                      id="percentageInput"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="Masalan: 80"
+                      value="${
+                        result?.percentage !== ""
+                          ? escapeHtml(result?.percentage)
+                          : ""
+                      }"
+                    />
+                  </div>
+
+                  <div class="form-help">
+                    0 dan 100 gacha kiriting.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="commentInput">Izoh</label>
+
+                <textarea
+                  id="commentInput"
+                  placeholder="O‘quvchining natijasi haqida izoh yozing..."
+                >${escapeHtml(result?.comment || "")}</textarea>
+              </div>
+
+              <div class="actions">
+                <button
+                  type="button"
+                  class="secondary-button"
+                  id="clearResultButton"
+                >
+                  Tozalash
+                </button>
+
+                <button
+                  type="submit"
+                  class="primary-button"
+                  id="saveResultButton"
+                >
+                  ${result ? "Natijani yangilash" : "Natijani saqlash"}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="box">
+            <h2 class="section-title">Natijalar tarixi</h2>
+
+            <p class="section-description">
+              Ushbu o‘quvchining saqlangan natijalari.
+            </p>
+
+            <div class="results-table-wrap" id="resultsHistory"></div>
+          </div>
+        `;
+
+        bindResultEvents();
+        renderResultsHistory();
+      }
+
+      function renderResultsHistory() {
+        const container = document.getElementById("resultsHistory");
+
+        if (!container) {
+          return;
+        }
+
+        const savedResults = resultTypes
+          .map((item) => studentResults[item.key])
+          .filter(Boolean);
+
+        if (savedResults.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              Hali natija kiritilmagan.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = `
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Test</th>
+                <th>Natija</th>
+                <th>Foiz</th>
+                <th>Sana</th>
+                <th>Izoh</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              ${savedResults
+                .map(
+                  (result) => `
+                    <tr>
+                      <td>
+                        <span class="result-badge">
+                          ${escapeHtml(getTypeLabel(result.type))}
+                        </span>
+                      </td>
+
+                      <td>
+                        ${escapeHtml(getResultDisplay(result))}
+                      </td>
+
+                      <td>
+                        ${getPercentage(result).toFixed(1)}%
+                      </td>
+
+                      <td>
+                        ${escapeHtml(getResultDate(result))}
+                      </td>
+
+                      <td class="comment-cell">
+                        ${escapeHtml(result.comment || "Izoh yo‘q")}
+                      </td>
+
+                      <td>
+                        <button
+                          type="button"
+                          class="table-action"
+                          data-edit-type="${escapeHtml(result.type)}"
+                        >
+                          Tahrirlash
+                        </button>
+                      </td>
+                    </tr>
+                  `,
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+
+        container.querySelectorAll("[data-edit-type]").forEach((button) => {
+          button.addEventListener("click", () => {
+            selectedType = button.dataset.editType;
+            inputMode = "score";
+            renderSelectedStudent();
+
+            setTimeout(() => {
+              const form = document.getElementById("resultForm");
+
+              if (form) {
+                form.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }, 50);
+          });
+        });
+      }
+
+      function bindResultEvents() {
+        document.querySelectorAll("[data-result-type]").forEach((button) => {
+          button.addEventListener("click", () => {
+            selectedType = button.dataset.resultType;
+            inputMode = "score";
+            renderSelectedStudent();
+          });
+        });
+
+        document.querySelectorAll("[data-input-mode]").forEach((button) => {
+          button.addEventListener("click", () => {
+            inputMode = button.dataset.inputMode;
+
+            renderSelectedStudent();
+
+            if (inputMode === "score") {
+              const percentageInput =
+                document.getElementById("percentageInput");
+
+              const scoreInput = document.getElementById("scoreInput");
+              const totalInput = document.getElementById("totalInput");
+
+              if (
+                percentageInput &&
+                scoreInput &&
+                totalInput &&
+                percentageInput.value
+              ) {
+                const percentage = Number(percentageInput.value);
+
+                if (
+                  Number.isFinite(percentage) &&
+                  percentage >= 0 &&
+                  percentage <= 100 &&
+                  !totalInput.value
+                ) {
+                  totalInput.value = "100";
+                  scoreInput.value = percentage;
+                }
+              }
+            }
+          });
+        });
+
+        const scoreFields = document.getElementById("scoreFields");
+        const percentageFields = document.getElementById("percentageFields");
+
+        if (inputMode === "percentage") {
+          scoreFields.style.display = "none";
+          percentageFields.style.display = "block";
+        } else {
+          scoreFields.style.display = "block";
+          percentageFields.style.display = "none";
+        }
+
+        const scoreInput = document.getElementById("scoreInput");
+        const totalInput = document.getElementById("totalInput");
+        const percentageInput = document.getElementById("percentageInput");
+
+        function updateCalculatedPercentage() {
+          if (inputMode !== "score") {
+            return;
+          }
+
+          if (!scoreInput || !totalInput || !percentageInput) {
+            return;
+          }
+
+          const calculated = calculatePercentage(
+            scoreInput.value,
+            totalInput.value,
+          );
+
+          percentageInput.value = calculated;
+        }
+
+        if (scoreInput) {
+          scoreInput.addEventListener("input", updateCalculatedPercentage);
+        }
+
+        if (totalInput) {
+          totalInput.addEventListener("input", updateCalculatedPercentage);
+        }
+
+        const clearButton = document.getElementById("clearResultButton");
+
+        clearButton.addEventListener("click", () => {
+          const result = studentResults[selectedType] || null;
+
+          const score = document.getElementById("scoreInput");
+          const total = document.getElementById("totalInput");
+          const percentage = document.getElementById("percentageInput");
+          const comment = document.getElementById("commentInput");
+
+          if (score) {
+            score.value = result?.score ?? "";
+          }
+
+          if (total) {
+            total.value = result?.total ?? "";
+          }
+
+          if (percentage) {
+            percentage.value = result?.percentage ?? "";
+          }
+
+          if (comment) {
+            comment.value = result?.comment ?? "";
+          }
+        });
+
+        const resultForm = document.getElementById("resultForm");
+
+        resultForm.addEventListener("submit", saveResult);
+      }
+
+      async function saveResult(event) {
+        event.preventDefault();
+
+        if (!selectedStudent) {
+          showMessage("Avval o‘quvchini tanlang.", true);
+          return;
+        }
+
+        const scoreInput = document.getElementById("scoreInput");
+        const totalInput = document.getElementById("totalInput");
+        const percentageInput = document.getElementById("percentageInput");
+        const commentInput = document.getElementById("commentInput");
+        const saveButton = document.getElementById("saveResultButton");
+
+        let score = "";
+        let total = "";
+        let percentage = "";
+
+        if (inputMode === "score") {
+          score = scoreInput.value.trim();
+          total = totalInput.value.trim();
+
+          if (score === "" || total === "") {
+            showMessage("Olingan ball va jami ballni kiriting.", true);
+            return;
+          }
+
+          const scoreNumber = Number(score);
+          const totalNumber = Number(total);
+
+          if (!Number.isFinite(scoreNumber) || !Number.isFinite(totalNumber)) {
+            showMessage("Ball qiymatlarini to‘g‘ri kiriting.", true);
+            return;
+          }
+
+          if (scoreNumber < 0 || totalNumber <= 0) {
+            showMessage("Ball qiymatlarini tekshiring.", true);
+            return;
+          }
+
+          if (scoreNumber > totalNumber) {
+            showMessage(
+              "Olingan ball jami balldan katta bo‘lishi mumkin emas.",
+              true,
+            );
+            return;
+          }
+
+          percentage = calculatePercentage(score, total);
+        } else {
+          percentage = percentageInput.value.trim();
+
+          if (percentage === "") {
+            showMessage("Foizni kiriting.", true);
+            return;
+          }
+
+          const percentageNumber = Number(percentage);
+
+          if (
+            !Number.isFinite(percentageNumber) ||
+            percentageNumber < 0 ||
+            percentageNumber > 100
+          ) {
+            showMessage("Foiz 0 dan 100 gacha bo‘lishi kerak.", true);
+            return;
+          }
+
+          percentage = clampPercentage(percentage);
+        }
+
+        const comment = commentInput.value.trim();
+        const existingResult = studentResults[selectedType];
+
+        const payload = {
+          teacherId: currentUser.id,
+          type: selectedType,
+          score,
+          total,
+          percentage,
+          comment,
+        };
+
+        try {
+          saveButton.disabled = true;
+          saveButton.textContent = "Saqlanmoqda...";
+
+          const method = existingResult ? "PUT" : "POST";
+
+          const url = existingResult
+            ? `${API_URL}/api/teacher/results/${selectedStudent.id}/${selectedType}?teacherId=${currentUser.id}`
+            : `${API_URL}/api/teacher/results/${selectedStudent.id}`;
+
+          const response = await fetch(url, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Natijani saqlashda xatolik");
+          }
+
+          studentResults = await loadStudentResults(selectedStudent.id);
+
+          renderSelectedStudent();
+
+          showMessage(
+            existingResult
+              ? "Natija muvaffaqiyatli yangilandi."
+              : "Natija muvaffaqiyatli saqlandi.",
+          );
+        } catch (error) {
+          showMessage(error.message, true);
+        } finally {
+          const currentButton = document.getElementById("saveResultButton");
+
+          if (currentButton) {
+            currentButton.disabled = false;
+            currentButton.textContent = studentResults[selectedType]
+              ? "Natijani yangilash"
+              : "Natijani saqlash";
+          }
+        }
+      }
+
+      groupSelect.addEventListener("change", async () => {
+        const groupId = groupSelect.value;
+
+        if (!groupId) {
+          selectedGroup = null;
+          students = [];
+          selectedStudent = null;
+          studentResults = {};
+
+          studentList.innerHTML = `
+            <div class="empty-state">
+              Avval guruhni tanlang.
+            </div>
+          `;
+
+          selectedStudentBlock.innerHTML = `
+            <div class="empty-state">
+              Natija kiritish uchun o‘quvchini tanlang.
+            </div>
+          `;
+
+          return;
+        }
+
+        await selectGroup(groupId);
+      });
+
+      studentSearch.addEventListener("input", () => {
+        renderStudents();
+      });
+
+      const logoutButton = document.querySelector(".sidebar__logout");
+
+      logoutButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("start21User");
+
+        window.location.href = "../pages/login.html";
+      });
+
+      loadGroups();
+    </script>
+  </body>
+</html>

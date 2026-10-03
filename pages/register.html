@@ -177,36 +177,96 @@
       </div>
     </main>
 
-    <script>
-      const registerPassword =
-        document.getElementById("registerPassword");
+ <script>
+  const registerForm = document.querySelector(".register-form");
 
-      const confirmPassword =
-        document.getElementById("confirmPassword");
+  const registerPassword =
+    document.getElementById("registerPassword");
 
-      const showRegisterPassword =
-        document.getElementById("showRegisterPassword");
+  const confirmPassword =
+    document.getElementById("confirmPassword");
 
-      const showConfirmPassword =
-        document.getElementById("showConfirmPassword");
+  const showRegisterPassword =
+    document.getElementById("showRegisterPassword");
 
-      showRegisterPassword.addEventListener("click", () => {
-        const isPassword = registerPassword.type === "password";
+  const showConfirmPassword =
+    document.getElementById("showConfirmPassword");
 
-        registerPassword.type = isPassword ? "text" : "password";
-        showRegisterPassword.textContent = isPassword
-          ? "Yashirish"
-          : "Ko‘rsatish";
+  showRegisterPassword.addEventListener("click", () => {
+    const isPassword = registerPassword.type === "password";
+
+    registerPassword.type = isPassword ? "text" : "password";
+    showRegisterPassword.textContent = isPassword
+      ? "Yashirish"
+      : "Ko‘rsatish";
+  });
+
+  showConfirmPassword.addEventListener("click", () => {
+    const isPassword = confirmPassword.type === "password";
+
+    confirmPassword.type = isPassword ? "text" : "password";
+    showConfirmPassword.textContent = isPassword
+      ? "Yashirish"
+      : "Ko‘rsatish";
+  });
+
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const firstName =
+      document.getElementById("firstName").value.trim();
+
+    const lastName =
+      document.getElementById("lastName").value.trim();
+
+    const phone =
+      document.getElementById("registerPhone").value.trim();
+
+    const email =
+      document.getElementById("registerEmail").value.trim();
+
+    const password =
+      registerPassword.value;
+
+    const confirmPasswordValue =
+      confirmPassword.value;
+
+    if (password !== confirmPasswordValue) {
+      alert("Parollar bir xil emas");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: `${firstName} ${lastName}`,
+          email,
+          password,
+          phone
+        })
       });
 
-      showConfirmPassword.addEventListener("click", () => {
-        const isPassword = confirmPassword.type === "password";
+      const data = await response.json();
 
-        confirmPassword.type = isPassword ? "text" : "password";
-        showConfirmPassword.textContent = isPassword
-          ? "Yashirish"
-          : "Ko‘rsatish";
-      });
-    </script>
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert("Ro‘yxatdan o‘tish muvaffaqiyatli!");
+
+      registerForm.reset();
+
+      window.location.href = "login.html";
+    } catch (error) {
+      alert("Server bilan bog‘lanib bo‘lmadi");
+      console.error(error);
+    }
+  });
+</script>
   </body>
 </html>

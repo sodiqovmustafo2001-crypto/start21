@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>START21 — Davomat</title>
+
+    <link rel="stylesheet" href="../style.css" />
+
+    <link rel="stylesheet" href="../student/student.css" />
+
+    <style>
+      .attendance-toolbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      .form-group label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: var(--primary);
+      }
+
+      .attendance-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .attendance-head__text {
+        color: var(--text-light);
+        font-size: 14px;
+      }
+
+      .attendance-summary {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .summary-card {
+        padding: 15px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .summary-card span {
+        display: block;
+        color: var(--text-light);
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      .summary-card strong {
+        display: block;
+        font-size: 24px;
+      }
+
+      .summary-card.present strong {
+        color: #16a34a;
+      }
+
+      .summary-card.absent strong {
+        color: #dc2626;
+      }
+
+      .summary-card.excused strong {
+        color: #d97706;
+      }
+
+      .summary-card.unexcused strong {
+        color: #b91c1c;
+      }
+
+      .student-attendance-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .attendance-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .attendance-row.highlight {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.12);
+      }
+
+      .student-info {
+        min-width: 0;
+      }
+
+      .student-name {
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+
+      .student-contact {
+        color: var(--text-light);
+        font-size: 13px;
+      }
+
+      .attendance-controls {
+        display: grid;
+        grid-template-columns: auto minmax(180px, 260px);
+        gap: 10px;
+        align-items: center;
+      }
+
+      .status-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .status-button {
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 9px 11px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .status-button:hover {
+        border-color: var(--primary);
+      }
+
+      .status-button.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .reason-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+      }
+
+      .reason-input:focus {
+        border-color: var(--primary);
+      }
+
+      .reason-input.hidden {
+        display: none;
+      }
+
+      .save-bar {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .save-button {
+        border: 0;
+        border-radius: 10px;
+        padding: 13px 20px;
+        background: var(--primary);
+        color: white;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .save-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .empty-state {
+        color: var(--text-light);
+        text-align: center;
+        padding: 30px 10px;
+      }
+
+      .message {
+        min-height: 20px;
+        margin-top: 10px;
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .error-message {
+        color: #dc2626;
+      }
+
+      @media (max-width: 1000px) {
+        .attendance-toolbar {
+          grid-template-columns: 1fr;
+        }
+
+        .attendance-summary {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .attendance-row {
+          grid-template-columns: 1fr;
+        }
+
+        .attendance-controls {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .attendance-summary {
+          grid-template-columns: 1fr;
+        }
+
+        .status-buttons {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .status-button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="panel">
+      <aside class="sidebar">
+        <a href="../index.html" class="logo">
+          <span class="logo__icon">A</span>
+
+          <span class="logo__text"> START<span>21</span> </span>
+        </a>
+
+        <nav>
+          <a href="dashboard.html"> Bosh panel </a>
+
+          <a href="groups.html"> Guruhlar </a>
+
+          <a href="students.html"> O‘quvchilar </a>
+
+          <a href="attendance.html" class="active"> Davomat </a>
+
+          <a href="results.html"> Natijalar </a>
+        </nav>
+
+        <a href="../pages/login.html" class="sidebar__logout"> Chiqish </a>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <h1>Davomat</h1>
+
+            <p>Guruhdagi o‘quvchilarning davomatini boshqaring.</p>
+          </div>
+
+          <div class="topbar__right">
+            <button class="theme-btn" id="themeBtn" type="button">☾</button>
+
+            <div class="user-chip" id="userChip">
+              <span>U</span>
+              Ustoz
+            </div>
+          </div>
+        </div>
+
+        <section class="box">
+          <div class="attendance-toolbar">
+            <div class="form-group">
+              <label for="groupSelect"> Guruh </label>
+
+              <select id="groupSelect">
+                <option value="">Guruhni tanlang</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="attendanceDate"> Sana </label>
+
+              <input id="attendanceDate" type="date" />
+            </div>
+          </div>
+
+          <div class="attendance-head">
+            <div>
+              <h2 id="selectedGroupTitle">Guruh tanlang</h2>
+
+              <div class="attendance-head__text" id="selectedGroupText">
+                Davomat kiritish uchun guruhni tanlang.
+              </div>
+            </div>
+          </div>
+
+          <div class="attendance-summary" id="attendanceSummary">
+            <div class="summary-card present">
+              <span>Keldi</span>
+              <strong id="presentCount">0</strong>
+            </div>
+
+            <div class="summary-card absent">
+              <span>Kelmadi</span>
+              <strong id="absentCount">0</strong>
+            </div>
+
+            <div class="summary-card excused">
+              <span>Sababli</span>
+              <strong id="excusedCount">0</strong>
+            </div>
+
+            <div class="summary-card unexcused">
+              <span>Sababsiz</span>
+              <strong id="unexcusedCount">0</strong>
+            </div>
+          </div>
+
+          <div class="student-attendance-list" id="studentAttendanceList">
+            <div class="empty-state">Avval guruhni tanlang.</div>
+          </div>
+
+          <div class="message" id="pageMessage"></div>
+
+          <div class="save-bar">
+            <button
+              class="save-button"
+              id="saveAttendanceButton"
+              type="button"
+              disabled
+            >
+              Davomatni saqlash
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000";
+
+      const params = new URLSearchParams(window.location.search);
+
+      const queryStudentId = params.get("studentId");
+
+      const themeBtn = document.getElementById("themeBtn");
+
+      const userChip = document.getElementById("userChip");
+
+      const groupSelect = document.getElementById("groupSelect");
+
+      const attendanceDate = document.getElementById("attendanceDate");
+
+      const selectedGroupTitle = document.getElementById("selectedGroupTitle");
+
+      const selectedGroupText = document.getElementById("selectedGroupText");
+
+      const studentAttendanceList = document.getElementById(
+        "studentAttendanceList",
+      );
+
+      const saveAttendanceButton = document.getElementById(
+        "saveAttendanceButton",
+      );
+
+      const pageMessage = document.getElementById("pageMessage");
+
+      const presentCount = document.getElementById("presentCount");
+
+      const absentCount = document.getElementById("absentCount");
+
+      const excusedCount = document.getElementById("excusedCount");
+
+      const unexcusedCount = document.getElementById("unexcusedCount");
+
+      let currentUser = null;
+      let groups = [];
+      let selectedGroup = null;
+      let students = [];
+      let attendance = [];
+      let attendanceState = {};
+
+      function getCurrentUser() {
+        const savedUser = localStorage.getItem("start21User");
+
+        if (!savedUser) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(savedUser);
+        } catch {
+          return null;
+        }
+      }
+
+      currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = "../pages/login.html";
+
+        throw new Error("Login kerak.");
+      }
+
+      if (currentUser.role !== "teacher") {
+        window.location.href = "../student/dashboard.html";
+
+        throw new Error("Teacher huquqi yo‘q.");
+      }
+
+      const teacherName = currentUser.name || "Ustoz";
+
+      const firstLetter = teacherName.charAt(0).toUpperCase();
+
+      userChip.innerHTML = `
+        <span>${firstLetter}</span>
+        ${teacherName}
+      `;
+
+      if (localStorage.getItem("start21Theme") === "dark") {
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀";
+      }
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
+        themeBtn.textContent = isDark ? "☀" : "☾";
+      });
+
+      function showMessage(message, error = false) {
+        pageMessage.textContent = message;
+
+        pageMessage.classList.toggle("error-message", error);
+
+        if (message) {
+          setTimeout(() => {
+            pageMessage.textContent = "";
+
+            pageMessage.classList.remove("error-message");
+          }, 4000);
+        }
+      }
+
+      function getToday() {
+        const now = new Date();
+
+        const year = now.getFullYear();
+
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+
+        const day = String(now.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+      }
+
+      function getStatusLabel(status) {
+        const labels = {
+          keldi: "✅ Keldi",
+          kelmadi: "❌ Kelmadi",
+          sababli: "🟡 Sababli",
+          sababsiz: "🔴 Sababsiz",
+        };
+
+        return labels[status] || status;
+      }
+
+     function setDefaultState() {
+  attendanceState = {};
+
+  students.forEach((student) => {
+    attendanceState[String(student.id)] = {
+      status: "keldi",
+      reason: "",
+      note: "",
+    };
+  });
+
+  updateSummary();
+}
+      function renderGroupOptions() {
+        groupSelect.innerHTML = `
+          <option value="">
+            Guruhni tanlang
+          </option>
+        `;
+
+        groups.forEach((group) => {
+          const option = document.createElement("option");
+
+          option.value = group.id;
+
+          option.textContent = `${group.name} — ${
+            group.level || "Intermediate"
+          }`;
+
+          groupSelect.appendChild(option);
+        });
+      }
+
+      async function loadGroups() {
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Guruhlarni olishda xatolik");
+          }
+
+          groups = data.groups || [];
+
+          renderGroupOptions();
+
+          if (groups.length === 0) {
+            selectedGroupTitle.textContent = "Guruh mavjud emas";
+
+            selectedGroupText.textContent = "Avval guruh yarating.";
+
+            studentAttendanceList.innerHTML = `
+              <div class="empty-state">
+                Hali guruh mavjud emas.
+              </div>
+            `;
+
+            return;
+          }
+
+          let targetGroup = null;
+
+          if (queryStudentId) {
+            for (const group of groups) {
+              try {
+                const response = await fetch(
+                  `${API_URL}/api/teacher/groups/${group.id}/students?teacherId=${currentUser.id}`,
+                );
+
+                if (!response.ok) {
+                  continue;
+                }
+
+                const data = await response.json();
+
+                const found = (data.students || []).some(
+                  (student) => String(student.id) === String(queryStudentId),
+                );
+
+                if (found) {
+                  targetGroup = group;
+
+                  break;
+                }
+              } catch {
+                continue;
+              }
+            }
+          }
+
+          if (!targetGroup) {
+            targetGroup = groups[0];
+          }
+
+          groupSelect.value = targetGroup.id;
+
+          await selectGroup(targetGroup.id);
+        } catch (error) {
+          showMessage(error.message, true);
+        }
+      }
+
+      async function selectGroup(groupId) {
+        const group = groups.find(
+          (item) => String(item.id) === String(groupId),
+        );
+
+        if (!group) {
+          return;
+        }
+
+        selectedGroup = group;
+
+        selectedGroupTitle.textContent = group.name;
+
+        selectedGroupText.textContent = `${group.course || "IELTS"} · ${
+          group.level || "Intermediate"
+        }`;
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/groups/${group.id}/students?teacherId=${currentUser.id}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "O‘quvchilarni olishda xatolik");
+          }
+
+          students = data.students || [];
+
+          await loadAttendance();
+
+          renderAttendance();
+
+          saveAttendanceButton.disabled = students.length === 0;
+        } catch (error) {
+          studentAttendanceList.innerHTML = `
+            <div class="empty-state">
+              ${error.message}
+            </div>
+          `;
+
+          saveAttendanceButton.disabled = true;
+        }
+      }
+
+      async function loadAttendance() {
+        if (!selectedGroup) {
+          return;
+        }
+
+        const date = attendanceDate.value;
+
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/attendance/${selectedGroup.id}?teacherId=${currentUser.id}&date=${encodeURIComponent(date)}`,
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Davomatni olishda xatolik");
+          }
+
+          attendance = data.attendance || [];
+
+          setDefaultState();
+
+          attendance.forEach((item) => {
+            attendanceState[String(item.studentId)] = {
+              status: item.status || "keldi",
+              reason: item.reason || "",
+              note: item.note || "",
+            };
+          });
+
+          renderAttendance();
+        } catch (error) {
+          showMessage(error.message, true);
+        }
+      }
+
+      function renderAttendance() {
+        if (students.length === 0) {
+          studentAttendanceList.innerHTML = `
+            <div class="empty-state">
+              Bu guruhda o‘quvchi yo‘q.
+            </div>
+          `;
+
+          updateSummary();
+
+          return;
+        }
+
+        studentAttendanceList.innerHTML = students
+          .map((student) => {
+            const studentKey = String(student.id);
+
+            const state = attendanceState[studentKey] || {
+              status: "keldi",
+              reason: "",
+              note: "",
+            };
+
+            const highlighted =
+              queryStudentId && String(student.id) === String(queryStudentId);
+
+            return `
+                  <div
+                    class="attendance-row ${highlighted ? "highlight" : ""}"
+                    data-student-id="${student.id}"
+                  >
+                    <div class="student-info">
+                      <div class="student-name">
+                        ${student.name}
+                      </div>
+
+                      <div class="student-contact">
+                        ${
+                          student.phone ||
+                          student.email ||
+                          "Aloqa ma’lumoti yo‘q"
+                        }
+                      </div>
+                    </div>
+
+                    <div class="attendance-controls">
+                      <div class="status-buttons">
+                        <button
+                          type="button"
+                          class="status-button ${
+                            state.status === "keldi" ? "active" : ""
+                          }"
+                          data-student-id="${student.id}"
+                          data-status="keldi"
+                        >
+                          Keldi
+                        </button>
+
+                        <button
+                          type="button"
+                          class="status-button ${
+                            state.status === "kelmadi" ? "active" : ""
+                          }"
+                          data-student-id="${student.id}"
+                          data-status="kelmadi"
+                        >
+                          Kelmadi
+                        </button>
+
+                        <button
+                          type="button"
+                          class="status-button ${
+                            state.status === "sababli" ? "active" : ""
+                          }"
+                          data-student-id="${student.id}"
+                          data-status="sababli"
+                        >
+                          Sababli
+                        </button>
+
+                        <button
+                          type="button"
+                          class="status-button ${
+                            state.status === "sababsiz" ? "active" : ""
+                          }"
+                          data-student-id="${student.id}"
+                          data-status="sababsiz"
+                        >
+                          Sababsiz
+                        </button>
+                      </div>
+
+                      <input
+                        type="text"
+                        class="reason-input ${
+                          state.status === "sababli" ||
+                          state.status === "sababsiz"
+                            ? ""
+                            : "hidden"
+                        }"
+                        data-reason-student-id="${student.id}"
+                        value="${state.reason || ""}"
+                        placeholder="Sabab yozing..."
+                      />
+                    </div>
+                  </div>
+                `;
+          })
+          .join("");
+
+        document.querySelectorAll(".status-button").forEach((button) => {
+          button.addEventListener("click", () => {
+            const studentId = button.dataset.studentId;
+
+            const status = button.dataset.status;
+
+            if (!attendanceState[studentId]) {
+              attendanceState[studentId] = {
+                status,
+                reason: "",
+                note: "",
+              };
+            } else {
+              attendanceState[studentId].status = status;
+            }
+
+            renderAttendance();
+          });
+        });
+
+        document.querySelectorAll(".reason-input").forEach((input) => {
+          input.addEventListener("input", () => {
+            const studentId = input.dataset.reasonStudentId;
+
+            if (!attendanceState[studentId]) {
+              attendanceState[studentId] = {
+                status: "keldi",
+                reason: "",
+                note: "",
+              };
+            }
+
+            attendanceState[studentId].reason = input.value;
+          });
+        });
+
+        updateSummary();
+
+        const target = document.querySelector(
+          `.attendance-row[data-student-id="${queryStudentId}"]`,
+        );
+
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }
+
+      function updateSummary() {
+        let present = 0;
+        let absent = 0;
+        let excused = 0;
+        let unexcused = 0;
+
+        Object.values(attendanceState).forEach((item) => {
+          if (item.status === "keldi") {
+            present++;
+          }
+
+          if (item.status === "kelmadi") {
+            absent++;
+          }
+
+          if (item.status === "sababli") {
+            excused++;
+          }
+
+          if (item.status === "sababsiz") {
+            unexcused++;
+          }
+        });
+
+        presentCount.textContent = present;
+
+        absentCount.textContent = absent;
+
+        excusedCount.textContent = excused;
+
+        unexcusedCount.textContent = unexcused;
+      }
+
+      groupSelect.addEventListener("change", async () => {
+        const groupId = groupSelect.value;
+
+        if (!groupId) {
+          selectedGroup = null;
+
+          selectedGroupTitle.textContent = "Guruh tanlang";
+
+          selectedGroupText.textContent =
+            "Davomat kiritish uchun guruhni tanlang.";
+
+          studentAttendanceList.innerHTML = `
+              <div class="empty-state">
+                Avval guruhni tanlang.
+              </div>
+            `;
+
+          saveAttendanceButton.disabled = true;
+
+          return;
+        }
+
+        await selectGroup(groupId);
+      });
+
+      attendanceDate.addEventListener("change", async () => {
+        if (selectedGroup) {
+          await loadAttendance();
+
+          renderAttendance();
+        }
+      });
+
+      saveAttendanceButton.addEventListener("click", async () => {
+        if (!selectedGroup) {
+          showMessage("Avval guruhni tanlang.", true);
+
+          return;
+        }
+
+        if (students.length === 0) {
+          showMessage("Guruhda o‘quvchi yo‘q.", true);
+
+          return;
+        }
+
+        try {
+          saveAttendanceButton.disabled = true;
+
+          saveAttendanceButton.textContent = "Saqlanmoqda...";
+
+          for (const student of students) {
+            const state = attendanceState[String(student.id)] || {
+              status: "keldi",
+              reason: "",
+              note: "",
+            };
+
+            const response = await fetch(`${API_URL}/api/teacher/attendance`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                teacherId: currentUser.id,
+                groupId: selectedGroup.id,
+                studentId: student.id,
+                date: attendanceDate.value,
+                status: state.status,
+                reason: state.reason || "",
+                note: state.note || "",
+              }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(
+                data.message || `Davomat saqlanmadi: ${student.name}`,
+              );
+            }
+          }
+
+          showMessage("Davomat muvaffaqiyatli saqlandi.");
+
+          await loadAttendance();
+
+          renderAttendance();
+        } catch (error) {
+          showMessage(error.message, true);
+        } finally {
+          saveAttendanceButton.disabled = students.length === 0;
+
+          saveAttendanceButton.textContent = "Davomatni saqlash";
+        }
+      });
+
+      const logoutButton = document.querySelector(".sidebar__logout");
+
+      logoutButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("start21User");
+
+        window.location.href = "../pages/login.html";
+      });
+
+      attendanceDate.value = getToday();
+
+      loadGroups();
+    </script>
+  </body>
+</html>

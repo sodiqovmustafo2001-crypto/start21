@@ -2,9 +2,13 @@
 <html lang="uz">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>START21 — Testlar</title>
+
     <link rel="stylesheet" href="../style.css" />
+
     <link rel="stylesheet" href="../student/student.css" />
   </head>
 
@@ -13,64 +17,428 @@
       <aside class="sidebar">
         <a href="../index.html" class="logo">
           <span class="logo__icon">A</span>
-          <span class="logo__text">START<span>21</span></span>
+
+          <span class="logo__text"> START<span>21</span> </span>
         </a>
 
         <nav>
-          <a href="dashboard.html">Bosh panel</a>
-          <a href="courses.html">Kurslarim</a>
-          <a href="tests.html" class="active">Testlar</a>
-          <a href="profile.html">Profil</a>
+          <a href="dashboard.html"> Bosh panel </a>
+
+          <a href="courses.html"> Kurslarim </a>
+
+          <a href="tests.html" class="active"> Testlar </a>
+
+          <a href="profile.html"> Profil </a>
         </nav>
 
-        <a href="../pages/login.html" class="sidebar__logout">Chiqish</a>
+        <a href="../pages/login.html" class="sidebar__logout"> Chiqish </a>
       </aside>
 
       <main class="content">
         <div class="topbar">
           <div>
-            <h1>Testlar</h1>
-            <p>Bilimingizni muntazam tekshirib boring.</p>
+            <h1>IELTS Testlar</h1>
+
+            <p>Bilimingizni tekshiring va natijalaringizni kuzating.</p>
           </div>
 
           <div class="topbar__right">
             <button class="theme-btn" id="themeBtn" type="button">☾</button>
-            <div class="user-chip"><span>A</span>Azizbek</div>
+
+            <div class="user-chip" id="userChip">
+              <span>T</span>
+              Talaba
+            </div>
           </div>
         </div>
 
         <section class="box">
-          <h2>Barcha testlar</h2>
+          <h2>Mavjud testlar</h2>
+
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Test</th><th>Sana</th><th>Holat</th><th>Natija</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Test</th>
+                  <th>Bo‘lim</th>
+                  <th>Daraja</th>
+                  <th>Holat</th>
+                  <th>Amal</th>
+                </tr>
+              </thead>
+
               <tbody>
-                <tr><td>Grammar test</td><td>28 sentyabr</td><td><span class="badge badge--green">Topshirilgan</span></td><td><span class="list-item__score">85%</span></td></tr>
-                <tr><td>Reading test</td><td>21 sentyabr</td><td><span class="badge badge--green">Topshirilgan</span></td><td><span class="list-item__score">78%</span></td></tr>
-                <tr><td>Listening test</td><td>14 sentyabr</td><td><span class="badge badge--green">Topshirilgan</span></td><td><span class="list-item__score">64%</span></td></tr>
-                <tr><td>Daraja aniqlash testi</td><td>—</td><td><span class="badge">Mavjud</span></td><td><a href="../pages/diagnostic.html" class="badge">Boshlash</a></td></tr>
+                <tr>
+                  <td>IELTS Listening Practice</td>
+
+                  <td>Listening</td>
+
+                  <td>Intermediate</td>
+
+                  <td>
+                    <span class="badge" id="listeningStatus"> Mavjud </span>
+                  </td>
+
+                  <td>
+                    <a href="test.html?type=listening" class="badge">
+                      Boshlash
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>IELTS Reading Practice</td>
+
+                  <td>Reading</td>
+
+                  <td>Intermediate</td>
+
+                  <td>
+                    <span class="badge" id="readingStatus"> Mavjud </span>
+                  </td>
+
+                  <td>
+                    <a href="test.html?type=reading" class="badge">
+                      Boshlash
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>IELTS Writing Practice</td>
+
+                  <td>Writing</td>
+
+                  <td>Intermediate</td>
+
+                  <td>
+                    <span class="badge" id="writingStatus"> Mavjud </span>
+                  </td>
+
+                  <td>
+                    <a href="test.html?type=writing" class="badge">
+                      Boshlash
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>IELTS Speaking Practice</td>
+
+                  <td>Speaking</td>
+
+                  <td>Intermediate</td>
+
+                  <td>
+                    <span class="badge" id="speakingStatus"> Mavjud </span>
+                  </td>
+
+                  <td>
+                    <a href="test.html?type=speaking" class="badge">
+                      Boshlash
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>IELTS Mock Test</td>
+
+                  <td>Full Test</td>
+
+                  <td>IELTS</td>
+
+                  <td>
+                    <span class="badge" id="mockStatus"> Mavjud </span>
+                  </td>
+
+                  <td>
+                    <a href="test.html?type=mock" class="badge"> Boshlash </a>
+                  </td>
+                </tr>
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section class="box" style="margin-top: 16px">
+          <h2>Test natijalari</h2>
+
+          <div class="cards">
+            <div class="box">
+              <h3>Listening</h3>
+
+              <p id="listeningResult" style="color: var(--text-light)">
+                Hali test topshirilmagan.
+              </p>
+            </div>
+
+            <div class="box">
+              <h3>Reading</h3>
+
+              <p id="readingResult" style="color: var(--text-light)">
+                Hali test topshirilmagan.
+              </p>
+            </div>
+
+            <div class="box">
+              <h3>Writing</h3>
+
+              <p id="writingResult" style="color: var(--text-light)">
+                Hali test topshirilmagan.
+              </p>
+            </div>
+
+            <div class="box">
+              <h3>Speaking</h3>
+
+              <p id="speakingResult" style="color: var(--text-light)">
+                Hali test topshirilmagan.
+              </p>
+            </div>
+
+            <div class="box">
+              <h3>Mock Test</h3>
+
+              <p id="mockResult" style="color: var(--text-light)">
+                Hali test topshirilmagan.
+              </p>
+            </div>
           </div>
         </section>
       </main>
     </div>
 
     <script>
+      const userChip = document.getElementById("userChip");
+
       const themeBtn = document.getElementById("themeBtn");
 
-      if (localStorage.getItem("theme") === "dark") {
+      function getCurrentUser() {
+        const savedUser = localStorage.getItem("start21User");
+
+        if (!savedUser) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(savedUser);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function getUserKey() {
+        const user = getCurrentUser();
+
+        if (!user) {
+          return null;
+        }
+
+        return String(user.id || user.email || "")
+          .trim()
+          .replace(/[^a-zA-Z0-9_-]/g, "_");
+      }
+
+      function getResultsKey() {
+        const userKey = getUserKey();
+
+        if (!userKey) {
+          return null;
+        }
+
+        return `start21Results_${userKey}`;
+      }
+
+      function getResults() {
+        const resultsKey = getResultsKey();
+
+        if (!resultsKey) {
+          return {};
+        }
+
+        const savedResults = localStorage.getItem(resultsKey);
+
+        if (!savedResults) {
+          return {};
+        }
+
+        try {
+          const parsed = JSON.parse(savedResults);
+
+          if (Array.isArray(parsed)) {
+            const results = {};
+
+            parsed.forEach((item) => {
+              if (item && item.type) {
+                results[item.type] = item;
+              }
+            });
+
+            return results;
+          }
+
+          return parsed;
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function getPercentage(result) {
+        if (!result) {
+          return null;
+        }
+
+        if (result.percentage !== undefined) {
+          return Number(result.percentage);
+        }
+
+        if (result.correct !== undefined && result.total) {
+          return Math.round(
+            (Number(result.correct) / Number(result.total)) * 100,
+          );
+        }
+
+        if (result.score !== undefined && result.total) {
+          return Math.round(
+            (Number(result.score) / Number(result.total)) * 100,
+          );
+        }
+
+        return null;
+      }
+
+      function formatResult(result) {
+        if (!result) {
+          return "Hali test topshirilmagan.";
+        }
+
+        const percentage = getPercentage(result);
+
+        const correct = result.correct ?? result.correctAnswers ?? result.score;
+
+        const total = result.total ?? result.totalQuestions;
+
+        if (
+          percentage !== null &&
+          correct !== undefined &&
+          total !== undefined
+        ) {
+          return `${percentage}% — ${correct}/${total} ta to‘g‘ri`;
+        }
+
+        if (percentage !== null) {
+          return `${percentage}%`;
+        }
+
+        return "Test topshirilgan.";
+      }
+
+      function updateStatus(elementId, result) {
+        const element = document.getElementById(elementId);
+
+        if (!element) {
+          return;
+        }
+
+        const percentage = getPercentage(result);
+
+        element.classList.remove("badge--green");
+
+        if (percentage === null) {
+          element.textContent = "Mavjud";
+
+          return;
+        }
+
+        element.textContent = `Natija: ${percentage}%`;
+
+        element.classList.add("badge--green");
+      }
+
+      function showUser() {
+        const user = getCurrentUser();
+
+        if (!user) {
+          window.location.href = "../pages/login.html";
+
+          return;
+        }
+
+        const userName = user.name || "Talaba";
+
+        const firstLetter = userName.charAt(0).toUpperCase();
+
+        userChip.innerHTML = `
+          <span>${firstLetter}</span>
+          ${userName}
+        `;
+      }
+
+      function showResults() {
+        const results = getResults();
+
+        document.getElementById("listeningResult").textContent = formatResult(
+          results.listening,
+        );
+
+        document.getElementById("readingResult").textContent = formatResult(
+          results.reading,
+        );
+
+        document.getElementById("writingResult").textContent = formatResult(
+          results.writing,
+        );
+
+        document.getElementById("speakingResult").textContent = formatResult(
+          results.speaking,
+        );
+
+        document.getElementById("mockResult").textContent = formatResult(
+          results.mock,
+        );
+
+        updateStatus("listeningStatus", results.listening);
+
+        updateStatus("readingStatus", results.reading);
+
+        updateStatus("writingStatus", results.writing);
+
+        updateStatus("speakingStatus", results.speaking);
+
+        updateStatus("mockStatus", results.mock);
+      }
+
+      showUser();
+
+      if (localStorage.getItem("start21Theme") === "dark") {
         document.body.classList.add("dark");
+
         themeBtn.textContent = "☀";
       }
 
       themeBtn.addEventListener("click", () => {
         document.body.classList.toggle("dark");
+
         const isDark = document.body.classList.contains("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
         themeBtn.textContent = isDark ? "☀" : "☾";
       });
 
+      showResults();
+
+      const logoutBtn = document.querySelector(".sidebar__logout");
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+
+          localStorage.removeItem("start21User");
+
+          window.location.href = "../pages/login.html";
+        });
+      }
     </script>
   </body>
 </html>

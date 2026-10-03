@@ -2,10 +2,122 @@
 <html lang="uz">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>START21 — Profil</title>
+
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../student/student.css" />
+
+    <style>
+      .profile-grid {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .profile-card {
+        text-align: center;
+      }
+
+      .profile-avatar {
+        width: 88px;
+        height: 88px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: white;
+        font-size: 34px;
+        font-weight: 800;
+      }
+
+      .profile-name {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+
+      .profile-role {
+        color: var(--text-light);
+        margin-bottom: 20px;
+      }
+
+      .info-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .info-item {
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .info-label {
+        display: block;
+        color: var(--text-light);
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+
+      .info-value {
+        font-weight: 700;
+        word-break: break-word;
+      }
+
+      .profile-form {
+        display: grid;
+        gap: 16px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: var(--primary);
+      }
+
+      .profile-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .save-message {
+        min-height: 20px;
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      @media (max-width: 800px) {
+        .profile-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -23,51 +135,122 @@
           <a href="profile.html" class="active">Profil</a>
         </nav>
 
-        <a href="../pages/login.html" class="sidebar__logout">Chiqish</a>
+        <a href="../pages/login.html" class="sidebar__logout"> Chiqish </a>
       </aside>
 
       <main class="content">
         <div class="topbar">
           <div>
-            <h1>Profil</h1>
-            <p>Shaxsiy ma’lumotlaringizni yangilang.</p>
+            <h1>Mening profilim</h1>
+            <p>Shaxsiy ma’lumotlaringizni boshqaring.</p>
           </div>
 
           <div class="topbar__right">
             <button class="theme-btn" id="themeBtn" type="button">☾</button>
-            <div class="user-chip"><span>A</span>Azizbek</div>
+
+            <div class="user-chip" id="userChip">
+              <span>T</span>
+              Talaba
+            </div>
           </div>
         </div>
 
-        <section class="box">
-          <div class="profile-head">
-            <div class="avatar">A</div>
-            <div>
-              <h2 style="margin: 0">Azizbek</h2>
-              <p style="color: var(--text-light); font-size: 13px">English General · B1</p>
-            </div>
+        <section class="profile-grid">
+          <div class="box profile-card">
+            <div class="profile-avatar" id="profileAvatar">T</div>
+
+            <div class="profile-name" id="profileName">Talaba</div>
+
+            <div class="profile-role">O‘quvchi</div>
+
+            <span class="badge badge--green"> IELTS </span>
           </div>
 
-          <form id="profileForm">
-            <div class="form-grid">
-              <div class="field"><label for="fn">Ism</label><input id="fn" value="Azizbek" /></div>
-              <div class="field"><label for="ln">Familiya</label><input id="ln" value="" placeholder="Familiyangiz" /></div>
-              <div class="field"><label for="ph">Telefon raqam</label><input id="ph" type="tel" placeholder="+998 90 123 45 67" /></div>
-              <div class="field"><label for="em">Email</label><input id="em" type="email" placeholder="example@gmail.com" /></div>
-              <div class="field">
-                <label for="lv">Maqsad</label>
-                <select id="lv">
-                  <option>General English</option>
-                  <option>IELTS</option>
-                  <option>CEFR</option>
-                  <option>SAT</option>
-                  <option>DTM</option>
-                </select>
+          <div class="box">
+            <h2>Shaxsiy ma’lumotlar</h2>
+
+            <div class="info-list">
+              <div class="info-item">
+                <span class="info-label"> Ism </span>
+
+                <span class="info-value" id="infoName"> — </span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label"> Email </span>
+
+                <span class="info-value" id="infoEmail"> — </span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label"> Telefon </span>
+
+                <span class="info-value" id="infoPhone"> — </span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label"> Kurs </span>
+
+                <span class="info-value" id="infoCourse"> IELTS </span>
               </div>
             </div>
+          </div>
+        </section>
 
-            <button type="submit" class="btn-small">Saqlash</button>
-            <p class="form-note" id="note" hidden>Ma’lumotlar saqlandi.</p>
+        <section class="box" style="margin-top: 16px">
+          <h2>Profilni tahrirlash</h2>
+
+          <form class="profile-form" id="profileForm">
+            <div class="form-group">
+              <label for="editName"> Ism </label>
+
+              <input
+                id="editName"
+                type="text"
+                placeholder="Ismingiz"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editEmail"> Email </label>
+
+              <input
+                id="editEmail"
+                type="email"
+                placeholder="email@example.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editPhone"> Telefon </label>
+
+              <input
+                id="editPhone"
+                type="text"
+                placeholder="+998 90 123 45 67"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editCourse"> Kurs </label>
+
+              <select id="editCourse">
+                <option value="IELTS">IELTS</option>
+              </select>
+            </div>
+
+            <div class="save-message" id="saveMessage"></div>
+
+            <div class="profile-actions">
+              <button type="submit" class="btn-small">Saqlash</button>
+
+              <button type="button" class="btn-small" id="logoutButton">
+                Chiqish
+              </button>
+            </div>
           </form>
         </section>
       </main>
@@ -76,22 +259,209 @@
     <script>
       const themeBtn = document.getElementById("themeBtn");
 
-      if (localStorage.getItem("theme") === "dark") {
+      const userChip = document.getElementById("userChip");
+
+      const profileAvatar = document.getElementById("profileAvatar");
+
+      const profileName = document.getElementById("profileName");
+
+      const infoName = document.getElementById("infoName");
+
+      const infoEmail = document.getElementById("infoEmail");
+
+      const infoPhone = document.getElementById("infoPhone");
+
+      const infoCourse = document.getElementById("infoCourse");
+
+      const profileForm = document.getElementById("profileForm");
+
+      const editName = document.getElementById("editName");
+
+      const editEmail = document.getElementById("editEmail");
+
+      const editPhone = document.getElementById("editPhone");
+
+      const editCourse = document.getElementById("editCourse");
+
+      const saveMessage = document.getElementById("saveMessage");
+
+      const logoutButton = document.getElementById("logoutButton");
+
+      function getCurrentUser() {
+        const savedUser = localStorage.getItem("start21User");
+
+        if (!savedUser) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(savedUser);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function getUserKey() {
+        const user = getCurrentUser();
+
+        if (!user) {
+          return null;
+        }
+
+        return String(user.id || user.email || "")
+          .trim()
+          .replace(/[^a-zA-Z0-9_-]/g, "_");
+      }
+
+      function getCourseKey() {
+        const userKey = getUserKey();
+
+        if (!userKey) {
+          return null;
+        }
+
+        return `profileCourse_${userKey}`;
+      }
+
+      function getUserCourse() {
+        const courseKey = getCourseKey();
+
+        if (!courseKey) {
+          return "IELTS";
+        }
+
+        return localStorage.getItem(courseKey) || "IELTS";
+      }
+
+      function saveUserCourse(course) {
+        const courseKey = getCourseKey();
+
+        if (!courseKey) {
+          return;
+        }
+
+        localStorage.setItem(courseKey, course);
+      }
+
+      function renderUser() {
+        const user = getCurrentUser();
+
+        if (!user) {
+          window.location.href = "../pages/login.html";
+
+          return;
+        }
+
+        const name = user.name || "Talaba";
+
+        const firstLetter = name.charAt(0).toUpperCase();
+
+        const course = getUserCourse();
+
+        userChip.innerHTML = `
+          <span>${firstLetter}</span>
+          ${name}
+        `;
+
+        profileAvatar.textContent = firstLetter;
+
+        profileName.textContent = name;
+
+        infoName.textContent = name;
+
+        infoEmail.textContent = user.email || "—";
+
+        infoPhone.textContent = user.phone || "—";
+
+        infoCourse.textContent = course;
+
+        editName.value = name;
+
+        editEmail.value = user.email || "";
+
+        editPhone.value = user.phone || "";
+
+        editCourse.value = "IELTS";
+      }
+
+      renderUser();
+
+      if (localStorage.getItem("start21Theme") === "dark") {
         document.body.classList.add("dark");
+
         themeBtn.textContent = "☀";
       }
 
       themeBtn.addEventListener("click", () => {
         document.body.classList.toggle("dark");
+
         const isDark = document.body.classList.contains("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
         themeBtn.textContent = isDark ? "☀" : "☾";
       });
 
-      document.getElementById("profileForm").addEventListener("submit", (e) => {
-        e.preventDefault();
-        document.getElementById("note").hidden = false;
+      profileForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const currentUser = getCurrentUser();
+
+        if (!currentUser) {
+          window.location.href = "../pages/login.html";
+
+          return;
+        }
+
+        const newName = editName.value.trim();
+
+        const newEmail = editEmail.value.trim();
+
+        const newPhone = editPhone.value.trim();
+
+        if (!newName || !newEmail || !newPhone) {
+          saveMessage.textContent = "Barcha maydonlarni to‘ldiring.";
+
+          return;
+        }
+
+        const updatedUser = {
+          ...currentUser,
+          name: newName,
+          email: newEmail,
+          phone: newPhone,
+        };
+
+        localStorage.setItem("start21User", JSON.stringify(updatedUser));
+
+        saveUserCourse("IELTS");
+
+        renderUser();
+
+        saveMessage.textContent = "Ma’lumotlar saqlandi.";
+
+        setTimeout(() => {
+          saveMessage.textContent = "";
+        }, 2500);
       });
+
+      function logout() {
+        localStorage.removeItem("start21User");
+
+        window.location.href = "../pages/login.html";
+      }
+
+      logoutButton.addEventListener("click", logout);
+
+      const sidebarLogout = document.querySelector(".sidebar__logout");
+
+      if (sidebarLogout) {
+        sidebarLogout.addEventListener("click", (event) => {
+          event.preventDefault();
+
+          logout();
+        });
+      }
     </script>
   </body>
 </html>

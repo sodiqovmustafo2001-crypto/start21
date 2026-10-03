@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>START21 — Ustoz paneli</title>
+
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../student/student.css" />
+
+    <style>
+      .teacher-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .teacher-stat {
+        padding: 20px;
+      }
+
+      .teacher-stat span {
+        display: block;
+        color: var(--text-light);
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .teacher-stat strong {
+        display: block;
+        font-size: 30px;
+        color: var(--primary);
+        margin-bottom: 5px;
+      }
+
+      .teacher-stat small {
+        color: var(--text-light);
+      }
+
+      .teacher-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .teacher-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .teacher-list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .teacher-list-item__left {
+        min-width: 0;
+      }
+
+      .teacher-list-item__title {
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .teacher-list-item__text {
+        color: var(--text-light);
+        font-size: 14px;
+      }
+
+      .teacher-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .teacher-action {
+        text-decoration: none;
+      }
+
+      .teacher-search {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        outline: none;
+        margin-bottom: 16px;
+      }
+
+      .teacher-search:focus {
+        border-color: var(--primary);
+      }
+
+      .teacher-empty {
+        color: var(--text-light);
+        font-size: 14px;
+        padding: 10px 0;
+      }
+
+      .teacher-error {
+        color: #dc2626;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 1000px) {
+        .teacher-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 800px) {
+        .teacher-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .teacher-stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="panel">
+      <aside class="sidebar">
+        <a href="../index.html" class="logo">
+          <span class="logo__icon">A</span>
+          <span class="logo__text">START<span>21</span></span>
+        </a>
+
+        <nav>
+          <a href="dashboard.html" class="active"> Bosh panel </a>
+
+          <a href="#groups"> Guruhlar </a>
+
+          <a href="#students"> O‘quvchilar </a>
+
+          <a href="#attendance"> Davomat </a>
+
+          <a href="#results"> Natijalar </a>
+        </nav>
+
+        <a href="../pages/login.html" class="sidebar__logout"> Chiqish </a>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <h1 id="welcomeTitle">Salom, ustoz!</h1>
+
+            <p>Guruhlaringiz va o‘quvchilaringizni shu yerdan boshqaring.</p>
+          </div>
+
+          <div class="topbar__right">
+            <button class="theme-btn" id="themeBtn" type="button">☾</button>
+
+            <div class="user-chip" id="userChip">
+              <span>U</span>
+              Ustoz
+            </div>
+          </div>
+        </div>
+
+        <section class="teacher-actions">
+          <a href="groups.html" class="btn-small teacher-action"> Guruhlar </a>
+
+          <a href="students.html" class="btn-small teacher-action">
+            O‘quvchilar
+          </a>
+
+          <a href="attendance.html" class="btn-small teacher-action">
+            Davomat
+          </a>
+
+          <a href="results.html" class="btn-small teacher-action">
+            Natijalar
+          </a>
+        </section>
+
+        <section class="teacher-stats">
+          <div class="box teacher-stat">
+            <span>Guruhlar</span>
+
+            <strong id="groupCount"> 0 </strong>
+
+            <small> Sizga biriktirilgan </small>
+          </div>
+
+          <div class="box teacher-stat">
+            <span>O‘quvchilar</span>
+
+            <strong id="studentCount"> 0 </strong>
+
+            <small> Barcha guruhlarda </small>
+          </div>
+
+          <div class="box teacher-stat">
+            <span>O‘rtacha progress</span>
+
+            <strong id="averageProgress"> 0% </strong>
+
+            <small> IELTS skilllar bo‘yicha </small>
+          </div>
+
+          <div class="box teacher-stat">
+            <span>Davomat</span>
+
+            <strong id="attendancePercent"> 0% </strong>
+
+            <small> Umumiy ko‘rsatkich </small>
+          </div>
+        </section>
+
+        <section class="teacher-grid">
+          <div class="box" id="groups">
+            <h2>Mening guruhlarim</h2>
+
+            <div class="teacher-list" id="groupList"></div>
+          </div>
+
+          <div class="box" id="attendance">
+            <h2>Davomat holati</h2>
+
+            <div class="teacher-list" id="attendanceList"></div>
+          </div>
+        </section>
+
+        <section class="box" id="students" style="margin-top: 16px">
+          <h2>O‘quvchilar</h2>
+
+          <input
+            type="text"
+            id="studentSearch"
+            class="teacher-search"
+            placeholder="O‘quvchi ismi, email yoki telefon..."
+          />
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ism</th>
+
+                  <th>Telefon</th>
+
+                  <th>Email</th>
+
+                  <th>Amal</th>
+                </tr>
+              </thead>
+
+              <tbody id="studentsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="box" id="results" style="margin-top: 16px">
+          <h2>Natijalar</h2>
+
+          <div class="teacher-list" id="resultsList"></div>
+        </section>
+
+        <div class="teacher-error" id="teacherError"></div>
+      </main>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000";
+
+      const themeBtn = document.getElementById("themeBtn");
+
+      const userChip = document.getElementById("userChip");
+
+      const welcomeTitle = document.getElementById("welcomeTitle");
+
+      const groupCount = document.getElementById("groupCount");
+
+      const studentCount = document.getElementById("studentCount");
+
+      const averageProgress = document.getElementById("averageProgress");
+
+      const attendancePercent = document.getElementById("attendancePercent");
+
+      const groupList = document.getElementById("groupList");
+
+      const studentsTableBody = document.getElementById("studentsTableBody");
+
+      const studentSearch = document.getElementById("studentSearch");
+
+      const resultsList = document.getElementById("resultsList");
+
+      const attendanceList = document.getElementById("attendanceList");
+
+      const teacherError = document.getElementById("teacherError");
+
+      function getCurrentUser() {
+        const savedUser = localStorage.getItem("start21User");
+
+        if (!savedUser) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(savedUser);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      const currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = "../pages/login.html";
+        throw new Error("Foydalanuvchi topilmadi.");
+      }
+
+      if (currentUser.role !== "teacher") {
+        window.location.href = "../student/dashboard.html";
+
+        throw new Error("Teacher huquqi yo‘q.");
+      }
+
+      const teacherName = currentUser.name || "Ustoz";
+
+      const firstLetter = teacherName.charAt(0).toUpperCase();
+
+      welcomeTitle.textContent = `Salom, ${teacherName}!`;
+
+      userChip.innerHTML = `
+        <span>${firstLetter}</span>
+        ${teacherName}
+      `;
+
+      if (localStorage.getItem("start21Theme") === "dark") {
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀";
+      }
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("start21Theme", isDark ? "dark" : "light");
+
+        themeBtn.textContent = isDark ? "☀" : "☾";
+      });
+
+      function showError(message) {
+        teacherError.textContent = message;
+
+        setTimeout(() => {
+          teacherError.textContent = "";
+        }, 5000);
+      }
+
+      function getPercentage(result) {
+        if (!result) {
+          return null;
+        }
+
+        if (result.percentage !== undefined) {
+          return Number(result.percentage);
+        }
+
+        if (result.correct !== undefined && result.total) {
+          return Math.round(
+            (Number(result.correct) / Number(result.total)) * 100,
+          );
+        }
+
+        if (result.score !== undefined && result.total) {
+          return Math.round(
+            (Number(result.score) / Number(result.total)) * 100,
+          );
+        }
+
+        return null;
+      }
+
+      function calculateStudentProgress(results) {
+        const types = ["listening", "reading", "writing", "speaking"];
+
+        const scores = types
+          .map((type) => getPercentage(results[type]))
+          .filter((score) => score !== null);
+
+        if (scores.length === 0) {
+          return null;
+        }
+
+        return Math.round(
+          scores.reduce((sum, score) => sum + score, 0) / scores.length,
+        );
+      }
+
+      let groups = [];
+      let students = [];
+      let dashboardData = null;
+
+      async function loadDashboard() {
+        try {
+          const response = await fetch(
+            `${API_URL}/api/teacher/dashboard/${currentUser.id}`,
+          );
+
+          if (!response.ok) {
+            throw new Error("Teacher dashboardni yuklab bo‘lmadi.");
+          }
+
+          dashboardData = await response.json();
+
+          groups = dashboardData.groups || [];
+
+          groupCount.textContent = groups.length;
+
+          studentCount.textContent = dashboardData.studentCount || 0;
+
+          renderGroups();
+
+          await loadStudents();
+
+          await loadAverageProgress();
+
+          await loadAttendance();
+        } catch (error) {
+          showError(error.message);
+        }
+      }
+
+      function renderGroups() {
+        if (groups.length === 0) {
+          groupList.innerHTML = `
+            <div class="teacher-empty">
+              Hozircha guruh mavjud emas.
+            </div>
+          `;
+
+          return;
+        }
+
+        groupList.innerHTML = groups
+          .map(
+            (group) => `
+                <div class="teacher-list-item">
+                  <div class="teacher-list-item__left">
+                    <div class="teacher-list-item__title">
+                      ${group.name}
+                    </div>
+
+                    <div class="teacher-list-item__text">
+                      ${group.course || "IELTS"} ·
+                      ${group.level || "Intermediate"}
+                    </div>
+                  </div>
+
+                  <a
+                    href="groups.html"
+                    class="badge"
+                  >
+                    Ochish
+                  </a>
+                </div>
+              `,
+          )
+          .join("");
+      }
+
+      async function loadStudents(search = "") {
+        try {
+          const url = new URL(`${API_URL}/api/teacher/students`);
+
+          url.searchParams.set("teacherId", currentUser.id);
+
+          if (search.trim()) {
+            url.searchParams.set("q", search.trim());
+          }
+
+          const response = await fetch(url.toString());
+
+          if (!response.ok) {
+            throw new Error("O‘quvchilarni yuklab bo‘lmadi.");
+          }
+
+          const data = await response.json();
+
+          students = data.students || [];
+
+          renderStudents();
+        } catch (error) {
+          showError(error.message);
+        }
+      }
+
+      function renderStudents() {
+        if (students.length === 0) {
+          studentsTableBody.innerHTML = `
+            <tr>
+              <td colspan="4">
+                <span class="teacher-empty">
+                  O‘quvchi topilmadi.
+                </span>
+              </td>
+            </tr>
+          `;
+
+          return;
+        }
+
+        studentsTableBody.innerHTML = students
+          .map(
+            (student) => `
+                <tr>
+                  <td>
+                    ${student.name || "—"}
+                  </td>
+
+                  <td>
+                    ${student.phone || "—"}
+                  </td>
+
+                  <td>
+                    ${student.email || "—"}
+                  </td>
+
+                  <td>
+                    <a
+                      href="student.html?id=${student.id}"
+                      class="badge"
+                    >
+                      Profil
+                    </a>
+                  </td>
+                </tr>
+              `,
+          )
+          .join("");
+      }
+
+      async function loadAverageProgress() {
+        if (students.length === 0) {
+          averageProgress.textContent = "0%";
+
+          resultsList.innerHTML = `
+            <div class="teacher-empty">
+              Hali natija mavjud emas.
+            </div>
+          `;
+
+          return;
+        }
+
+        const progressValues = [];
+        const resultItems = [];
+
+        for (const student of students) {
+          try {
+            const response = await fetch(
+              `${API_URL}/api/teacher/students/${student.id}?teacherId=${currentUser.id}`,
+            );
+
+            if (!response.ok) {
+              continue;
+            }
+
+            const data = await response.json();
+
+            const progress = data.progress;
+
+            const overall = progress ? progress.overall : 0;
+
+            progressValues.push(overall);
+
+            resultItems.push({
+              student,
+              overall,
+            });
+          } catch (error) {
+            continue;
+          }
+        }
+
+        const average =
+          progressValues.length > 0
+            ? Math.round(
+                progressValues.reduce((sum, score) => sum + score, 0) /
+                  progressValues.length,
+              )
+            : 0;
+
+        averageProgress.textContent = `${average}%`;
+
+        if (resultItems.length === 0) {
+          resultsList.innerHTML = `
+            <div class="teacher-empty">
+              Hali natija mavjud emas.
+            </div>
+          `;
+
+          return;
+        }
+
+        resultItems.sort((a, b) => b.overall - a.overall);
+
+        resultsList.innerHTML = resultItems
+          .slice(0, 8)
+          .map(
+            (item) => `
+                <div class="teacher-list-item">
+                  <div class="teacher-list-item__left">
+                    <div class="teacher-list-item__title">
+                      ${item.student.name}
+                    </div>
+
+                    <div class="teacher-list-item__text">
+                      IELTS umumiy progressi
+                    </div>
+                  </div>
+
+                  <strong class="result-score">
+                    ${item.overall}%
+                  </strong>
+                </div>
+              `,
+          )
+          .join("");
+      }
+
+      async function loadAttendance() {
+        if (groups.length === 0) {
+          attendancePercent.textContent = "0%";
+
+          attendanceList.innerHTML = `
+            <div class="teacher-empty">
+              Hali guruh mavjud emas.
+            </div>
+          `;
+
+          return;
+        }
+
+        const allAttendance = [];
+
+        for (const group of groups) {
+          try {
+            const response = await fetch(
+              `${API_URL}/api/teacher/attendance/${group.id}?teacherId=${currentUser.id}`,
+            );
+
+            if (!response.ok) {
+              continue;
+            }
+
+            const data = await response.json();
+
+            if (Array.isArray(data.attendance)) {
+              allAttendance.push(...data.attendance);
+            }
+          } catch (error) {
+            continue;
+          }
+        }
+
+        if (allAttendance.length === 0) {
+          attendancePercent.textContent = "0%";
+
+          attendanceList.innerHTML = `
+            <div class="teacher-empty">
+              Hali davomat kiritilmagan.
+            </div>
+          `;
+
+          return;
+        }
+
+        const present = allAttendance.filter(
+          (item) => item.status === "keldi",
+        ).length;
+
+        const percentage = Math.round((present / allAttendance.length) * 100);
+
+        attendancePercent.textContent = `${percentage}%`;
+
+        const recent = allAttendance
+          .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+          .slice(0, 6);
+
+        attendanceList.innerHTML = recent
+          .map(
+            (item) => `
+                <div class="teacher-list-item">
+                  <div class="teacher-list-item__left">
+                    <div class="teacher-list-item__title">
+                      ${item.date}
+                    </div>
+
+                    <div class="teacher-list-item__text">
+                      ${getAttendanceLabel(item.status)}
+                    </div>
+                  </div>
+
+                  <span class="badge">
+                    ${getAttendanceLabel(item.status)}
+                  </span>
+                </div>
+              `,
+          )
+          .join("");
+      }
+
+      function getAttendanceLabel(status) {
+        const labels = {
+          keldi: "✅ Keldi",
+          kelmadi: "❌ Kelmadi",
+          sababli: "🟡 Sababli",
+          sababsiz: "🔴 Sababsiz",
+        };
+
+        return labels[status] || status;
+      }
+
+      studentSearch.addEventListener("input", () => {
+        loadStudents(studentSearch.value);
+      });
+
+      const logoutBtn = document.querySelector(".sidebar__logout");
+
+      logoutBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("start21User");
+
+        window.location.href = "../pages/login.html";
+      });
+
+      loadDashboard();
+    </script>
+  </body>
+</html>

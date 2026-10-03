@@ -1,0 +1,14 @@
+﻿backend/node_modules/
+backend/.env
+backend/data/*.json
+backend/attendance.json
+backend/groups.json
+backend/results.json
+.vscode/
+1-hozir-qoying/
+index copy.html
+pages copy/
+script copy.js
+student copy/
+style copy.css
+teacher copy/

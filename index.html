@@ -2,13 +2,104 @@
 <html lang="uz">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="START21 — zamonaviy ta'lim platformasi"
-    />
+    <meta name="description" content="START21 — zamonaviy ta'lim platformasi" />
     <title>START21 — Bilim bilan kelajak sari</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      .branches {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 20px;
+        align-items: stretch;
+      }
+      .branch-list {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+      .branch-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--card);
+        color: var(--text);
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.25s ease;
+      }
+      .branch-item:hover {
+        border-color: var(--primary);
+      }
+      .branch-item.active {
+        border-color: var(--primary);
+        background: var(--primary-light);
+      }
+      .branch-item__pin {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--primary-light);
+        font-size: 18px;
+      }
+      .branch-item.active .branch-item__pin {
+        background: var(--primary);
+      }
+      .branch-item strong {
+        display: block;
+        font-size: 15px;
+      }
+      .branch-item small {
+        color: var(--text-light);
+        font-size: 12px;
+      }
+      .branch-map {
+        display: flex;
+        flex-direction: column;
+        min-height: 440px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        background: var(--card);
+      }
+      .branch-map iframe {
+        flex: 1;
+        width: 100%;
+        min-height: 380px;
+        border: 0;
+      }
+      .branch-map__bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 14px 18px;
+        border-top: 1px solid var(--border);
+        font-size: 14px;
+      }
+      .branch-map__bar a {
+        color: var(--primary);
+        font-weight: 700;
+      }
+      @media (max-width: 900px) {
+        .branches {
+          grid-template-columns: 1fr;
+        }
+        .branch-map {
+          min-height: 380px;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -29,9 +120,7 @@
         </nav>
 
         <div class="header__actions">
-          <button class="theme-btn" id="themeBtn" type="button">
-            ☀
-          </button>
+          <button class="theme-btn" id="themeBtn" type="button">☀</button>
 
           <select class="language-select" id="languageSelect">
             <option value="uz">UZ</option>
@@ -69,7 +158,12 @@
                 Kurslarni ko‘rish
               </a>
 
-              <a href="https://t.me/Start21" target="_blank" rel="noopener" class="btn btn--secondary">
+              <a
+                href="https://t.me/Start21"
+                target="_blank"
+                rel="noopener"
+                class="btn btn--secondary"
+              >
                 Biz bilan bog‘lanish
               </a>
             </div>
@@ -233,8 +327,8 @@
             </h2>
 
             <p>
-              Biz o‘quvchini shunchaki darsga qatnashuvchi emas, o‘z maqsadi
-              bor shaxs sifatida ko‘ramiz.
+              Biz o‘quvchini shunchaki darsga qatnashuvchi emas, o‘z maqsadi bor
+              shaxs sifatida ko‘ramiz.
             </p>
 
             <div class="about-list">
@@ -294,17 +388,24 @@
             <div class="course-card">
               <div class="course-icon">👩‍🏫</div>
               <h3>Tajribali o‘qituvchilar</h3>
-              <p>IELTS, CEFR, SAT bo‘yicha xalqaro sertifikatga ega ustozlar.</p>
+              <p>
+                IELTS, CEFR, SAT bo‘yicha xalqaro sertifikatga ega ustozlar.
+              </p>
             </div>
             <div class="course-card">
               <div class="course-icon">🧭</div>
               <h3>Mentorlik tizimi</h3>
-              <p>Har bir o‘quvchiga individual yondashuv. Savollar javobsiz qolmaydi.</p>
+              <p>
+                Har bir o‘quvchiga individual yondashuv. Savollar javobsiz
+                qolmaydi.
+              </p>
             </div>
             <div class="course-card">
               <div class="course-icon">💻</div>
               <h3>Online tizim</h3>
-              <p>O‘quvchilar har kunlik natijalarini online kuzatib borishadi.</p>
+              <p>
+                O‘quvchilar har kunlik natijalarini online kuzatib borishadi.
+              </p>
             </div>
             <div class="course-card">
               <div class="course-icon">📊</div>
@@ -354,44 +455,27 @@
           <div class="section-heading">
             <span>FILIALLAR</span>
             <h2>Bizning filiallar</h2>
-            <p>O‘zingizga eng yaqin manzilda ta’lim oling.</p>
+            <p>Filialni tanlang, xaritada joylashuvi ko‘rinadi.</p>
           </div>
 
-          <div class="courses-grid">
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Chorsu</h3>
-              <p>START21 o‘quv markazi filiali</p>
-            </div>
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Davlatobod</h3>
-              <p>START21 o‘quv markazi filiali</p>
-            </div>
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Lola</h3>
-              <p>START21 o‘quv markazi filiali</p>
-            </div>
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Toshbuloq</h3>
-              <p>START21 o‘quv markazi filiali</p>
-            </div>
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Chortoq</h3>
-              <p>START21 o‘quv markazi filiali</p>
-            </div>
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Chust</h3>
-              <p>START21 o‘quv markazi filiali</p>
-            </div>
-            <div class="course-card">
-              <div class="course-icon">📍</div>
-              <h3>Uchkurgan</h3>
-              <p>START21 o‘quv markazi filiali</p>
+          <div class="branches">
+            <div class="branch-list" id="branchList"></div>
+
+            <div class="branch-map">
+              <iframe
+                id="branchMap"
+                title="Filial xaritasi"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+              ></iframe>
+
+              <div class="branch-map__bar">
+                <strong id="branchName"></strong>
+                <a id="branchLink" href="#" target="_blank" rel="noopener"
+                  >Google Maps'da ochish →</a
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -404,7 +488,8 @@
               <span>KEYINGI QADAM SENIKI</span>
               <h2>Kelajagingni bugundan boshlagin.</h2>
               <p>
-                O‘zingga mos kursni top va START21 bilan rivojlanishni boshlagin.
+                O‘zingga mos kursni top va START21 bilan rivojlanishni
+                boshlagin.
               </p>
             </div>
 
@@ -426,12 +511,654 @@
         <p>
           <a href="tel:+998781137310">+998 78 113 73 10</a> ·
           <a href="tel:+998692112121">+998 69 211 21 21</a> ·
-          <a href="https://t.me/Start21" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://t.me/Start21" target="_blank" rel="noopener"
+            >Telegram</a
+          >
         </p>
 
         <span>© 2026 START21</span>
       </div>
     </footer>
+
+    <script>
+      const branches = [
+        { name: "Chorsu", address: "", lat: null, lng: null, link: "" },
+        { name: "Davlatobod", address: "", lat: null, lng: null, link: "" },
+        { name: "Lola", address: "", lat: null, lng: null, link: "" },
+        { name: "Toshbuloq", address: "", lat: null, lng: null, link: "" },
+        { name: "Chortoq", address: "", lat: null, lng: null, link: "" },
+        { name: "Chust", address: "", lat: null, lng: null, link: "" },
+        { name: "Uchkurgan", address: "", lat: null, lng: null, link: "" },
+      ];
+
+      const branchList = document.getElementById("branchList");
+      const branchMap = document.getElementById("branchMap");
+      const branchName = document.getElementById("branchName");
+      const branchLink = document.getElementById("branchLink");
+
+      function branchQuery(branch) {
+        return branch.lat && branch.lng
+          ? branch.lat + "," + branch.lng
+          : "START21 " + branch.name + " Namangan";
+      }
+
+      function selectBranch(index) {
+        const branch = branches[index];
+        const query = branchQuery(branch);
+
+        branchMap.src =
+          "https://maps.google.com/maps?q=" +
+          encodeURIComponent(query) +
+          "&z=16&output=embed";
+        branchName.textContent = branch.name + " filiali";
+        branchLink.href =
+          branch.link ||
+          "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(query);
+
+        document.querySelectorAll(".branch-item").forEach((item, i) => {
+          item.classList.toggle("active", i === index);
+        });
+      }
+
+      branches.forEach((branch, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "branch-item";
+        button.innerHTML =
+          '<span class="branch-item__pin">📍</span><span><strong></strong><small></small></span>';
+        button.querySelector("strong").textContent = branch.name;
+        button.querySelector("small").textContent =
+          branch.address || "START21 o‘quv markazi";
+        button.addEventListener("click", () => selectBranch(index));
+        branchList.appendChild(button);
+      });
+
+      selectBranch(0);
+    </script>
+    <script>
+      const start21Translations = {
+        uz: {
+          nav: [
+            "Bosh sahifa",
+            "Kurslar",
+            "Ustozlar",
+            "Natijalar",
+            "Filiallar",
+            "Biz haqimizda",
+          ],
+
+          login: "Kirish",
+          register: "Ro‘yxatdan o‘tish",
+
+          heroBadge: "O‘QUV MARKAZI",
+
+          heroTitle: "Orzularingga <span>START21</span> bilan erish!",
+
+          heroText:
+            "Zamonaviy ta’lim, tajribali ustozlar va individual yondashuv. Kelajagingni biz bilan qur.",
+
+          heroButtons: ["Kurslarni ko‘rish", "Biz bilan bog‘lanish"],
+
+          stats: [
+            "Yillik tajriba",
+            "Mamnun o‘quvchilar",
+            "Filiallar",
+            "Natija ko‘rsatkichi",
+          ],
+
+          studentName: "Azizbek",
+          studentRole: "IELTS o‘quvchisi",
+          progress: "Umumiy progress",
+          goal: "Maqsad",
+          result: "Natija",
+
+          coursesLabel: "TA’LIM YO‘NALISHLARI",
+          coursesTitle: "O‘zingga mos kursni tanla",
+          coursesText:
+            "Maqsadingizga mos yo‘nalishni tanlang va rivojlanishni bugundan boshlang.",
+
+          courseNames: [
+            "General English",
+            "IELTS",
+            "Intensive IELTS",
+            "CEFR",
+            "SAT",
+            "DTM va milliy sertifikat",
+          ],
+
+          courseDescriptions: [
+            "4 bosqich, har biri 2 oy. Ingliz tilining asosiy bilimlari",
+            "4 oy. IELTS dan 6.5 va undan yuqori natija uchun",
+            "4 oy. Qisqa muddatda kamida 5.5 ball uchun",
+            "4 oy. Qisqa muddatda daraja sertifikati uchun",
+            "Xalqaro imtihonga tayyorlov",
+            "Oliy ta’limga kirish uchun tayyorlov",
+          ],
+
+          details: "Batafsil →",
+
+          aboutLabel: "NIMA UCHUN START21?",
+          aboutTitle: "Bilim ol. <span>Rivojlan.</span> Natijaga erish.",
+          aboutText:
+            "Biz o‘quvchini shunchaki darsga qatnashuvchi emas, o‘z maqsadi bor shaxs sifatida ko‘ramiz.",
+
+          aboutItems: [
+            [
+              "Individual yondashuv",
+              "Har bir o‘quvchining rivojlanishini kuzatamiz.",
+            ],
+            [
+              "Doimiy monitoring",
+              "Testlar va natijalar orqali progressni o‘lchaymiz.",
+            ],
+            [
+              "Mentorlik tizimi",
+              "O‘quvchi maqsadiga yetguncha qo‘llab-quvvatlanadi.",
+            ],
+          ],
+
+          teachersLabel: "USTOZLAR VA TIZIM",
+          teachersTitle: "Nega aynan bizni tanlashadi?",
+          teachersText:
+            "Sifatli ta’lim uchun kerak bo‘lgan hamma narsa bir joyda.",
+
+          teacherCards: [
+            [
+              "Tajribali o‘qituvchilar",
+              "IELTS, CEFR, SAT bo‘yicha xalqaro sertifikatga ega ustozlar.",
+            ],
+            [
+              "Mentorlik tizimi",
+              "Har bir o‘quvchiga individual yondashuv. Savollar javobsiz qolmaydi.",
+            ],
+            [
+              "Online tizim",
+              "O‘quvchilar har kunlik natijalarini online kuzatib borishadi.",
+            ],
+            [
+              "Haftalik monitoring",
+              "Haftalik testlar, oraliq baholash va ustozlar feedbacki.",
+            ],
+          ],
+
+          resultsLabel: "NATIJALAR",
+          resultsTitle: "Harakat natija beradi",
+          resultsText:
+            "O‘quvchilarimizning rivojlanishi biz uchun eng muhim ko‘rsatkich.",
+
+          resultStats: ["O‘quvchi", "Yillik tajriba", "Filial", "Natija"],
+
+          branchesLabel: "FILIALLAR",
+          branchesTitle: "Bizning filiallar",
+          branchesText: "Filialni tanlang, xaritada joylashuvi ko‘rinadi.",
+
+          maps: "Google Maps'da ochish →",
+
+          ctaLabel: "KEYINGI QADAM SENIKI",
+          ctaTitle: "Kelajagingni bugundan boshlagin.",
+          ctaText:
+            "O‘zingga mos kursni top va START21 bilan rivojlanishni boshlagin.",
+          ctaButton: "Bepul testni boshlash →",
+
+          footerTelegram: "Telegram",
+        },
+
+        ru: {
+          nav: [
+            "Главная",
+            "Курсы",
+            "Преподаватели",
+            "Результаты",
+            "Филиалы",
+            "О нас",
+          ],
+
+          login: "Войти",
+          register: "Регистрация",
+
+          heroBadge: "ОБРАЗОВАТЕЛЬНЫЙ ЦЕНТР",
+
+          heroTitle: "Достигай своих целей вместе с <span>START21</span>!",
+
+          heroText:
+            "Современное обучение, опытные преподаватели и индивидуальный подход. Строй своё будущее вместе с нами.",
+
+          heroButtons: ["Смотреть курсы", "Связаться с нами"],
+
+          stats: [
+            "Лет опыта",
+            "Довольных учеников",
+            "Филиалов",
+            "Показатель результата",
+          ],
+
+          studentName: "Азизбек",
+          studentRole: "Ученик IELTS",
+          progress: "Общий прогресс",
+          goal: "Цель",
+          result: "Результат",
+
+          coursesLabel: "НАПРАВЛЕНИЯ ОБУЧЕНИЯ",
+          coursesTitle: "Выбери подходящий курс",
+          coursesText:
+            "Выберите направление, которое соответствует вашей цели, и начните развиваться уже сегодня.",
+
+          courseNames: [
+            "Общий английский",
+            "IELTS",
+            "Интенсивный IELTS",
+            "CEFR",
+            "SAT",
+            "DTM и национальный сертификат",
+          ],
+
+          courseDescriptions: [
+            "4 уровня по 2 месяца. Основы английского языка",
+            "4 месяца. Для результата 6.5 и выше на IELTS",
+            "4 месяца. Минимум 5.5 балла за короткий срок",
+            "4 месяца. Подготовка к сертификации уровня",
+            "Подготовка к международному экзамену",
+            "Подготовка к поступлению в высшее учебное заведение",
+          ],
+
+          details: "Подробнее →",
+
+          aboutLabel: "ПОЧЕМУ START21?",
+          aboutTitle: "Учись. <span>Развивайся.</span> Достигай результата.",
+          aboutText:
+            "Мы видим в ученике не просто посетителя занятий, а человека с конкретной целью.",
+
+          aboutItems: [
+            [
+              "Индивидуальный подход",
+              "Мы следим за развитием каждого ученика.",
+            ],
+            [
+              "Постоянный мониторинг",
+              "Измеряем прогресс с помощью тестов и результатов.",
+            ],
+            [
+              "Система наставничества",
+              "Поддерживаем ученика до достижения его цели.",
+            ],
+          ],
+
+          teachersLabel: "ПРЕПОДАВАТЕЛИ И СИСТЕМА",
+          teachersTitle: "Почему выбирают именно нас?",
+          teachersText:
+            "Всё необходимое для качественного образования в одном месте.",
+
+          teacherCards: [
+            [
+              "Опытные преподаватели",
+              "Преподаватели с международными сертификатами IELTS, CEFR и SAT.",
+            ],
+            [
+              "Система наставничества",
+              "Индивидуальный подход к каждому ученику. Ни один вопрос не останется без ответа.",
+            ],
+            [
+              "Онлайн-система",
+              "Ученики могут ежедневно отслеживать свои результаты онлайн.",
+            ],
+            [
+              "Еженедельный мониторинг",
+              "Еженедельные тесты, промежуточная оценка и обратная связь преподавателей.",
+            ],
+          ],
+
+          resultsLabel: "РЕЗУЛЬТАТЫ",
+          resultsTitle: "Усердие даёт результат",
+          resultsText: "Развитие наших учеников — главный показатель для нас.",
+
+          resultStats: ["Учеников", "Лет опыта", "Филиала", "Результат"],
+
+          branchesLabel: "ФИЛИАЛЫ",
+          branchesTitle: "Наши филиалы",
+          branchesText:
+            "Выберите филиал, чтобы увидеть его расположение на карте.",
+
+          maps: "Открыть в Google Maps →",
+
+          ctaLabel: "СЛЕДУЮЩИЙ ШАГ ЗА ТОБОЙ",
+          ctaTitle: "Начни строить будущее уже сегодня.",
+          ctaText:
+            "Найди подходящий курс и начни развиваться вместе с START21.",
+          ctaButton: "Начать бесплатный тест →",
+
+          footerTelegram: "Telegram",
+        },
+
+        en: {
+          nav: [
+            "Home",
+            "Courses",
+            "Teachers",
+            "Results",
+            "Branches",
+            "About Us",
+          ],
+
+          login: "Login",
+          register: "Sign up",
+
+          heroBadge: "EDUCATION CENTER",
+
+          heroTitle: "Achieve your dreams with <span>START21</span>!",
+
+          heroText:
+            "Modern education, experienced teachers and an individual approach. Build your future with us.",
+
+          heroButtons: ["View courses", "Contact us"],
+
+          stats: [
+            "Years of experience",
+            "Happy students",
+            "Branches",
+            "Result rate",
+          ],
+
+          studentName: "Azizbek",
+          studentRole: "IELTS student",
+          progress: "Overall progress",
+          goal: "Goal",
+          result: "Result",
+
+          coursesLabel: "EDUCATION DIRECTIONS",
+          coursesTitle: "Choose the right course for you",
+          coursesText:
+            "Choose the direction that matches your goal and start improving today.",
+
+          courseNames: [
+            "General English",
+            "IELTS",
+            "Intensive IELTS",
+            "CEFR",
+            "SAT",
+            "DTM and National Certificate",
+          ],
+
+          courseDescriptions: [
+            "4 levels, 2 months each. Core English skills",
+            "4 months. For an IELTS score of 6.5 and above",
+            "4 months. At least 5.5 band in a short period",
+            "4 months. Preparation for level certification",
+            "Preparation for an international exam",
+            "Preparation for university admission",
+          ],
+
+          details: "Learn more →",
+
+          aboutLabel: "WHY START21?",
+          aboutTitle: "Learn. <span>Grow.</span> Achieve results.",
+          aboutText:
+            "We see every student not simply as a class attendee, but as a person with a clear goal.",
+
+          aboutItems: [
+            ["Individual approach", "We track the progress of every student."],
+            [
+              "Continuous monitoring",
+              "We measure progress through tests and results.",
+            ],
+            [
+              "Mentorship system",
+              "Students receive support until they reach their goals.",
+            ],
+          ],
+
+          teachersLabel: "TEACHERS AND SYSTEM",
+          teachersTitle: "Why do students choose us?",
+          teachersText: "Everything needed for quality education in one place.",
+
+          teacherCards: [
+            [
+              "Experienced teachers",
+              "Teachers with international IELTS, CEFR and SAT certificates.",
+            ],
+            [
+              "Mentorship system",
+              "An individual approach to every student. Questions never stay unanswered.",
+            ],
+            ["Online system", "Students can track their daily results online."],
+            [
+              "Weekly monitoring",
+              "Weekly tests, progress assessment and teacher feedback.",
+            ],
+          ],
+
+          resultsLabel: "RESULTS",
+          resultsTitle: "Hard work brings results",
+          resultsText:
+            "Our students' development is the most important indicator for us.",
+
+          resultStats: [
+            "Students",
+            "Years of experience",
+            "Branches",
+            "Result",
+          ],
+
+          branchesLabel: "BRANCHES",
+          branchesTitle: "Our branches",
+          branchesText: "Choose a branch to see its location on the map.",
+
+          maps: "Open in Google Maps →",
+
+          ctaLabel: "THE NEXT STEP IS YOURS",
+          ctaTitle: "Start building your future today.",
+          ctaText: "Find the right course and start growing with START21.",
+          ctaButton: "Start free test →",
+
+          footerTelegram: "Telegram",
+        },
+      };
+
+      const start21LanguageSelect = document.getElementById("languageSelect");
+
+      function start21SetText(selector, text) {
+        const element = document.querySelector(selector);
+
+        if (element) {
+          element.textContent = text;
+        }
+      }
+
+      function start21SetHTML(selector, html) {
+        const element = document.querySelector(selector);
+
+        if (element) {
+          element.innerHTML = html;
+        }
+      }
+
+      function start21ApplyLanguage(language) {
+        const t = start21Translations[language] || start21Translations.uz;
+
+        document.documentElement.lang = language;
+
+        document.querySelectorAll(".nav__link").forEach((element, index) => {
+          if (t.nav[index]) {
+            element.textContent = t.nav[index];
+          }
+        });
+
+        start21SetText(".login-btn", t.login);
+
+        start21SetText(".register-btn", t.register);
+
+        start21SetText(".hero__badge", t.heroBadge);
+
+        start21SetHTML(".hero__content h1", t.heroTitle);
+
+        start21SetText(".hero__content > p", t.heroText);
+
+        const heroButtons = document.querySelectorAll(".hero__buttons .btn");
+
+        heroButtons.forEach((button, index) => {
+          if (t.heroButtons[index]) {
+            button.textContent = t.heroButtons[index];
+          }
+        });
+
+        const statLabels = document.querySelectorAll(".hero__stats .stat span");
+
+        statLabels.forEach((element, index) => {
+          if (t.stats[index]) {
+            element.textContent = t.stats[index];
+          }
+        });
+
+        start21SetText(".hero-card__student strong", t.studentName);
+
+        start21SetText(".hero-card__student span", t.studentRole);
+
+        start21SetText(".progress-box__top span", t.progress);
+
+        const floatingCards = document.querySelectorAll(".floating-card");
+
+        if (floatingCards[0]) {
+          floatingCards[0].querySelector("strong").textContent = t.goal;
+        }
+
+        if (floatingCards[2]) {
+          floatingCards[2].querySelector("strong").textContent = t.result;
+        }
+
+        start21SetText("#courses .section-heading > span", t.coursesLabel);
+
+        start21SetText("#courses .section-heading h2", t.coursesTitle);
+
+        start21SetText("#courses .section-heading p", t.coursesText);
+
+        const courseCards = document.querySelectorAll("#courses .course-card");
+
+        courseCards.forEach((card, index) => {
+          if (t.courseNames[index]) {
+            card.querySelector("h3").textContent = t.courseNames[index];
+          }
+
+          if (t.courseDescriptions[index]) {
+            card.querySelector("p").textContent = t.courseDescriptions[index];
+          }
+
+          const linkText = card.querySelector("span:last-child");
+
+          if (linkText) {
+            linkText.textContent = t.details;
+          }
+        });
+
+        start21SetText("#about .section-label", t.aboutLabel);
+
+        start21SetHTML("#about h2", t.aboutTitle);
+
+        start21SetText("#about .about__content > p", t.aboutText);
+
+        const aboutItems = document.querySelectorAll("#about .about-item");
+
+        aboutItems.forEach((item, index) => {
+          const data = t.aboutItems[index];
+
+          if (!data) {
+            return;
+          }
+
+          const title = item.querySelector("h3");
+
+          const text = item.querySelector("p");
+
+          if (title) {
+            title.textContent = data[0];
+          }
+
+          if (text) {
+            text.textContent = data[1];
+          }
+        });
+
+        start21SetText("#teachers .section-heading > span", t.teachersLabel);
+
+        start21SetText("#teachers .section-heading h2", t.teachersTitle);
+
+        start21SetText("#teachers .section-heading p", t.teachersText);
+
+        const teacherCards = document.querySelectorAll(
+          "#teachers .course-card",
+        );
+
+        teacherCards.forEach((card, index) => {
+          const data = t.teacherCards[index];
+
+          if (!data) {
+            return;
+          }
+
+          card.querySelector("h3").textContent = data[0];
+
+          card.querySelector("p").textContent = data[1];
+        });
+
+        start21SetText("#results .section-heading > span", t.resultsLabel);
+
+        start21SetText("#results .section-heading h2", t.resultsTitle);
+
+        start21SetText("#results .section-heading p", t.resultsText);
+
+        const resultCards = document.querySelectorAll(
+          "#results .result-card span",
+        );
+
+        resultCards.forEach((element, index) => {
+          if (t.resultStats[index]) {
+            element.textContent = t.resultStats[index];
+          }
+        });
+
+        start21SetText("#branches .section-heading > span", t.branchesLabel);
+
+        start21SetText("#branches .section-heading h2", t.branchesTitle);
+
+        start21SetText("#branches .section-heading p", t.branchesText);
+
+        start21SetText("#branchLink", t.maps);
+
+        start21SetText(".cta-section .cta > div > span", t.ctaLabel);
+
+        start21SetText(".cta-section .cta h2", t.ctaTitle);
+
+        start21SetText(".cta-section .cta p", t.ctaText);
+
+        start21SetText(".cta-section .btn", t.ctaButton);
+
+        const footerLinks = document.querySelectorAll(".footer p a");
+
+        if (footerLinks[2]) {
+          footerLinks[2].textContent = t.footerTelegram;
+        }
+
+        document.querySelectorAll(".branch-item small").forEach((element) => {
+          element.textContent =
+            language === "uz"
+              ? "START21 o‘quv markazi"
+              : language === "ru"
+                ? "Образовательный центр START21"
+                : "START21 education center";
+        });
+
+        localStorage.setItem("start21Language", language);
+      }
+
+      const savedLanguage = localStorage.getItem("start21Language") || "uz";
+
+      start21LanguageSelect.value = savedLanguage;
+
+      start21ApplyLanguage(savedLanguage);
+
+      start21LanguageSelect.addEventListener("change", (event) => {
+        start21ApplyLanguage(event.target.value);
+      });
+    </script>
 
     <script src="script.js"></script>
   </body>

@@ -90,3 +90,23 @@ function searchCourses() {
 searchButton.addEventListener("click", searchCourses);
 
 searchInput.addEventListener("input", searchCourses);
+
+function updateThemeColor() {
+  let meta = document.querySelector('meta[name="theme-color"]');
+
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "theme-color";
+    document.head.appendChild(meta);
+  }
+
+  meta.content = document.body.classList.contains("dark") ? "#07101f" : "#ffffff";
+}
+
+updateThemeColor();
+
+const themeColorButton = document.getElementById("themeBtn");
+
+if (themeColorButton) {
+  themeColorButton.addEventListener("click", updateThemeColor);
+}

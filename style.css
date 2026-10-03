@@ -3,12 +3,12 @@
 :root {
   --primary: #1769ff;
   --primary-dark: #0f4ed8;
-  --primary-light: #eaf2ff;
+  --primary-light: #e0ecff;
   --text: #10203a;
-  --text-light: #68758a;
+  --text-light: #4f5d73;
   --white: #ffffff;
-  --background: #f7f9fc;
-  --border: #e4e9f1;
+  --background: #ffffff;
+  --border: #d3dbe8;
   --card: #ffffff;
   --shadow: 0 20px 60px rgba(28, 61, 112, 0.08);
   --radius: 22px;
@@ -1186,4 +1186,13 @@ body.dark .footer {
     flex-direction: column;
     text-align: center;
   }
+}
+/* TEMA: brauzer avtomatik qorong'ilashtirmasligi uchun */
+:root {
+  color-scheme: light;
+}
+
+html:has(body.dark),
+body.dark {
+  color-scheme: dark;
 }
